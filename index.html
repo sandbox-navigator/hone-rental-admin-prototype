@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机遇 AI · 二手手机门店经营后台</title>
+  <link rel="icon" href="data:,">
+  <script src="lucide-subset.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-nav="dashboard" aria-label="返回工作台">
+        <span class="brand-mark"><i data-lucide="refresh-cw"></i></span>
+        <span><strong>机遇 AI</strong><small>门店经营系统</small></span>
+      </button>
+      <nav class="main-nav" aria-label="主导航">
+        <button class="nav-item active" data-nav="dashboard"><i data-lucide="layout-dashboard"></i><span>工作台</span></button>
+        <button class="nav-item" data-nav="stores"><i data-lucide="store"></i><span>店铺</span></button>
+        <button class="nav-item" data-nav="im"><i data-lucide="messages-square"></i><span>IM 聊天</span><b class="nav-badge">6</b></button>
+        <button class="nav-item" data-nav="products"><i data-lucide="smartphone"></i><span>二手手机</span></button>
+        <button class="nav-item" data-nav="orders"><i data-lucide="clipboard-list"></i><span>订单</span></button>
+        <button class="nav-item" data-nav="templates"><i data-lucide="message-square-text"></i><span>消息模板</span></button>
+        <button class="nav-item" data-nav="ai"><i data-lucide="bot"></i><span>AI 客服</span></button>
+        <button class="nav-item" data-nav="analytics"><i data-lucide="chart-no-axes-combined"></i><span>经营数据</span></button>
+      </nav>
+      <div class="top-actions">
+        <button class="icon-btn" id="notificationBtn" title="通知"><i data-lucide="bell"></i><span class="dot"></span></button>
+        <button class="store-picker" id="storePicker"><span class="status-dot online"></span><span>城南数码旗舰店</span><i data-lucide="chevron-down"></i></button>
+        <button class="profile-btn" id="profileBtn"><span class="avatar">王</span><span>王店长</span><i data-lucide="chevron-down"></i></button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="page active" data-page="dashboard">
+        <div class="page-header">
+          <div><p class="eyebrow">2026 年 8 月 1 日 · 周六</p><h1>早上好，王店长</h1><p>今天有 18 条待处理事项，其中 3 条可能影响成交。</p></div>
+          <div class="header-actions"><button class="btn secondary" data-nav="im"><i data-lucide="headphones"></i>进入客服台</button><button class="btn primary" data-action="new-plan"><i data-lucide="sparkles"></i>新建租机方案</button></div>
+        </div>
+
+        <div class="metric-grid five">
+          <article class="metric-card"><div class="metric-icon blue"><i data-lucide="messages-square"></i></div><div><span>今日咨询</span><strong>68</strong><small><b class="up">↑ 12.6%</b> 较昨日</small></div></article>
+          <article class="metric-card"><div class="metric-icon teal"><i data-lucide="user-check"></i></div><div><span>有效线索</span><strong>21</strong><small>意向率 30.9%</small></div></article>
+          <article class="metric-card"><div class="metric-icon orange"><i data-lucide="file-check-2"></i></div><div><span>已出方案</span><strong>13</strong><small>待跟进 5 单</small></div></article>
+          <article class="metric-card"><div class="metric-icon green"><i data-lucide="badge-check"></i></div><div><span>今日成交</span><strong>8</strong><small><b class="up">↑ 2 单</b> 较昨日</small></div></article>
+          <article class="metric-card"><div class="metric-icon purple"><i data-lucide="bot"></i></div><div><span>AI 接待率</span><strong>82%</strong><small>人工接管 12 次</small></div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel task-panel">
+            <div class="panel-head"><div><h2>今日待办</h2><p>按成交影响和风险优先级排序</p></div><button class="text-btn" data-action="complete-all">全部标记已读</button></div>
+            <div class="task-list">
+              <button class="task-row urgent" data-nav="im"><span class="task-icon"><i data-lucide="message-circle-warning"></i></span><span class="task-main"><b>3 条高意向咨询等待人工接管</b><small>买家已询问到店地址或最终租价</small></span><span class="tag red">立即处理</span><i data-lucide="chevron-right"></i></button>
+              <button class="task-row" data-nav="orders"><span class="task-icon"><i data-lucide="package-check"></i></span><span class="task-main"><b>4 个订单等待发货</b><small>最早订单剩余 1 小时 26 分钟超时</small></span><span class="tag orange">待发货</span><i data-lucide="chevron-right"></i></button>
+              <button class="task-row" data-nav="products"><span class="task-icon"><i data-lucide="database-zap"></i></span><span class="task-main"><b>6 台设备知识信息不完整</b><small>缺少电池健康、维修史或租赁底价</small></span><span class="tag yellow">需补充</span><i data-lucide="chevron-right"></i></button>
+              <button class="task-row" data-nav="orders"><span class="task-icon"><i data-lucide="calendar-clock"></i></span><span class="task-main"><b>5 位用户将在 7 天内到期</b><small>可推送续租、买断或升级换机方案</small></span><span class="tag blue">待跟进</span><i data-lucide="chevron-right"></i></button>
+            </div>
+          </section>
+
+          <section class="panel conversion-panel">
+            <div class="panel-head"><div><h2>今日转化漏斗</h2><p>闲鱼线上线索</p></div><button class="icon-btn plain" data-nav="analytics" title="查看详情"><i data-lucide="arrow-up-right"></i></button></div>
+            <div class="funnel">
+              <div class="funnel-row"><span>咨询</span><div><i style="width:100%"></i></div><b>68</b></div>
+              <div class="funnel-row"><span>有效线索</span><div><i style="width:72%"></i></div><b>49</b></div>
+              <div class="funnel-row"><span>生成方案</span><div><i style="width:38%"></i></div><b>26</b></div>
+              <div class="funnel-row"><span>确认到店/下单</span><div><i style="width:24%"></i></div><b>16</b></div>
+              <div class="funnel-row"><span>成交</span><div><i style="width:12%"></i></div><b>8</b></div>
+            </div>
+            <div class="insight"><i data-lucide="lightbulb"></i><span><b>AI 建议</b>「iPhone 13 维修过渡机」咨询转化最高，建议补充 3 台可租库存。</span></div>
+          </section>
+        </div>
+
+        <section class="panel recent-panel">
+          <div class="panel-head"><div><h2>最近高意向线索</h2><p>AI 已完成意图识别和风险初筛</p></div><button class="text-btn" data-nav="im">查看全部</button></div>
+          <div class="table-wrap"><table><thead><tr><th>买家</th><th>意向商品</th><th>需求场景</th><th>预算/方案</th><th>风险判断</th><th>跟进状态</th><th>操作</th></tr></thead><tbody>
+            <tr><td><div class="person"><span class="avatar green">林</span><span><b>林先生</b><small>闲鱼 · 5 分钟前</small></span></div></td><td>iPhone 13 128G</td><td><span class="tag blue">维修过渡</span></td><td>月租 ¥269 / 6期</td><td><span class="risk low"><i></i>低风险</span></td><td>已约 16:30 到店</td><td><button class="link-btn" data-nav="im">继续沟通</button></td></tr>
+            <tr><td><div class="person"><span class="avatar orange">陈</span><span><b>陈同学</b><small>闲鱼 · 18 分钟前</small></span></div></td><td>iPhone 14 Pro 256G</td><td><span class="tag purple">学生用机</span></td><td>首付 ¥399 + 月租 ¥359</td><td><span class="risk medium"><i></i>需核验</span></td><td>待确认监护信息</td><td><button class="link-btn" data-nav="im">继续沟通</button></td></tr>
+            <tr><td><div class="person"><span class="avatar blue">赵</span><span><b>赵女士</b><small>闲鱼 · 31 分钟前</small></span></div></td><td>华为 Mate 50 256G</td><td><span class="tag green">旧机置换</span></td><td>旧机预计抵扣 ¥1,200</td><td><span class="risk low"><i></i>低风险</span></td><td>待到店验机</td><td><button class="link-btn" data-nav="im">继续沟通</button></td></tr>
+          </tbody></table></div>
+        </section>
+      </section>
+
+      <section class="page" data-page="stores">
+        <div class="page-header compact"><div><h1>店铺管理</h1><p>管理闲鱼店铺授权、AI 接待和消息连接状态。</p></div><button class="btn primary" data-action="authorize-store"><i data-lucide="scan-line"></i>扫码授权店铺</button></div>
+        <div class="metric-grid four">
+          <article class="metric-card simple"><span>已授权店铺</span><strong>3</strong><small>可用名额 5 个</small></article>
+          <article class="metric-card simple"><span>在线店铺</span><strong class="green-text">3</strong><small>消息通道正常</small></article>
+          <article class="metric-card simple"><span>AI 接待中</span><strong>2</strong><small>1 家由人工接待</small></article>
+          <article class="metric-card simple"><span>今日新咨询</span><strong>68</strong><small>未读 6 条</small></article>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>闲鱼店铺</h2><p>切换 AI 接管前请确保商品知识和店铺规则已配置。</p></div><div class="toolbar"><label class="search"><i data-lucide="search"></i><input placeholder="搜索店铺"></label><button class="btn secondary small" data-action="refresh"><i data-lucide="refresh-cw"></i>刷新状态</button></div></div>
+          <div class="table-wrap"><table><thead><tr><th>店铺</th><th>授权状态</th><th>消息连接</th><th>AI 客服</th><th>今日咨询</th><th>今日成交</th><th>更新时间</th><th>操作</th></tr></thead><tbody>
+            <tr><td><div class="person"><span class="store-logo blue">城</span><span><b>城南数码旗舰店</b><small>店铺 ID：XY892103</small></span></div></td><td><span class="tag green">已授权</span></td><td><span class="risk low"><i></i>在线</span></td><td><label class="switch"><input type="checkbox" checked><span></span></label></td><td><b>36</b> <span class="unread">4 未读</span></td><td>5 单</td><td>刚刚</td><td><div class="row-actions"><button class="link-btn" data-nav="im">进入聊天</button><button class="icon-btn plain" data-action="store-more"><i data-lucide="ellipsis"></i></button></div></td></tr>
+            <tr><td><div class="person"><span class="store-logo orange">万</span><span><b>万达手机快修</b><small>店铺 ID：XY553209</small></span></div></td><td><span class="tag green">已授权</span></td><td><span class="risk low"><i></i>在线</span></td><td><label class="switch"><input type="checkbox" checked><span></span></label></td><td><b>21</b> <span class="unread">2 未读</span></td><td>2 单</td><td>2 分钟前</td><td><div class="row-actions"><button class="link-btn" data-nav="im">进入聊天</button><button class="icon-btn plain" data-action="store-more"><i data-lucide="ellipsis"></i></button></div></td></tr>
+            <tr><td><div class="person"><span class="store-logo green">青</span><span><b>青禾二手优品</b><small>店铺 ID：XY721056</small></span></div></td><td><span class="tag green">已授权</span></td><td><span class="risk low"><i></i>在线</span></td><td><label class="switch"><input type="checkbox"><span></span></label></td><td><b>11</b></td><td>1 单</td><td>6 分钟前</td><td><div class="row-actions"><button class="link-btn" data-nav="im">进入聊天</button><button class="icon-btn plain" data-action="store-more"><i data-lucide="ellipsis"></i></button></div></td></tr>
+          </tbody></table></div>
+        </section>
+      </section>
+
+      <section class="page full-bleed" data-page="im">
+        <div class="im-layout">
+          <aside class="conversation-sidebar">
+            <div class="conversation-head"><div><h2>消息</h2><span class="tag blue">AI 接待中</span></div><label class="search wide"><i data-lucide="search"></i><input id="conversationSearch" placeholder="搜索买家或商品"></label><div class="filter-tabs"><button class="active">全部</button><button>未读 <b>6</b></button><button>待人工 <b>3</b></button></div></div>
+            <div class="conversation-list" id="conversationList"></div>
+          </aside>
+          <section class="chat-stage">
+            <header class="chat-header">
+              <div class="person"><span class="avatar green" id="chatAvatar">林</span><span><b id="chatBuyer">林先生</b><small><span class="status-dot online"></span><span id="chatStatus">在线 · 来自闲鱼</span></small></span></div>
+              <div class="chat-actions"><span class="ai-state"><i data-lucide="bot"></i>AI 正在接待</span><button class="btn secondary small" id="transferBtn"><i data-lucide="user-round"></i>转人工</button><button class="icon-btn plain" title="虚拟电话提醒店主" data-action="phone-call"><i data-lucide="phone-call"></i></button><button class="icon-btn plain" title="更多"><i data-lucide="ellipsis"></i></button></div>
+            </header>
+            <div class="context-strip"><span><i data-lucide="smartphone"></i>咨询商品：<b>iPhone 13 128G 星光色</b></span><span><i data-lucide="tag"></i>场景：<b>维修过渡机</b></span><button class="link-btn" data-action="open-product">查看商品</button></div>
+            <div class="messages" id="messages">
+              <div class="time-separator">今天 10:24</div>
+              <div class="message buyer"><span class="avatar green">林</span><div><p>这个 13 还在吗？电池多少，屏幕换过没有？</p><small>10:24</small></div></div>
+              <div class="ai-trace"><i data-lucide="sparkles"></i>AI 已识别商品卡片，并读取设备档案 SN13-0821</div>
+              <div class="message agent"><span class="avatar ai"><i data-lucide="bot"></i></span><div><p>在的。这台是 iPhone 13 128G 星光色，电池健康 89%，原装屏，边框有轻微使用痕迹，门店已完成 38 项检测。您是想直接购买，还是短期过渡使用呢？</p><small>AI 回复 · 10:24</small></div></div>
+              <div class="message buyer"><span class="avatar green">林</span><div><p>我的手机送修了，差不多用两三个月。租的话最低多少？</p><small>10:25</small></div></div>
+              <div class="ai-trace warning"><i data-lucide="circle-alert"></i>高意向：明确租期并询问价格，建议给出租赁方案</div>
+              <div class="message agent"><span class="avatar ai"><i data-lucide="bot"></i></span><div><p>按您两三个月的过渡需求，更适合 3 个月短租：首期 299 元，之后每月 269 元，含基础保障。到期可以归还，也可以补差买断。您方便今天到店看一下机器吗？</p><small>AI 回复 · 10:25</small></div></div>
+              <div class="message buyer"><span class="avatar green">林</span><div><p>可以，下午四点半左右到，地址发我。</p><small>10:26</small></div></div>
+            </div>
+            <div class="composer">
+              <div class="suggestion"><i data-lucide="sparkles"></i><span><b>AI 建议回复</b>：好的，已为您保留到今天 17:30。门店地址是南城万达广场 2 号门旁城南数码，到店报“林先生”即可。</span><button id="useSuggestion">使用</button></div>
+              <textarea id="messageInput" placeholder="输入消息，Enter 发送，Shift + Enter 换行"></textarea>
+              <div class="composer-actions"><div><button class="icon-btn plain" title="图片"><i data-lucide="image"></i></button><button class="icon-btn plain" title="商品"><i data-lucide="package-plus"></i></button><button class="icon-btn plain" title="快捷回复"><i data-lucide="message-square-text"></i></button></div><button class="btn primary small" id="sendMessage">发送</button></div>
+            </div>
+          </section>
+          <aside class="insight-sidebar">
+            <div class="insight-tabs"><button class="active" data-insight="lead">线索洞察</button><button data-insight="customer">用户档案</button></div>
+            <div class="insight-content active" data-insight-panel="lead">
+              <section class="side-section"><div class="side-title"><h3>AI 意图判断</h3><span class="confidence">置信度 94%</span></div><div class="intent-card"><div><span class="tag blue">高意向</span><span class="tag green">真实使用</span><span class="tag purple">到店</span></div><p>维修期间短期过渡，明确租期 2-3 个月，关注设备质量和到店地址。</p></div></section>
+              <section class="side-section"><div class="side-title"><h3>风险提示</h3><span class="risk low"><i></i>低风险</span></div><ul class="check-list"><li><i data-lucide="check"></i>关注设备使用情况，而非额度和变现</li><li><i data-lucide="check"></i>愿意到店试机并当面核验</li><li><i data-lucide="check"></i>租期与维修过渡场景匹配</li></ul></section>
+              <section class="side-section"><div class="side-title"><h3>推荐租赁方案</h3><button class="link-btn" data-action="edit-plan">调整</button></div><div class="plan-card"><div class="phone-thumb dark"><span></span></div><div><b>iPhone 13 128G</b><small>3 个月 · 短租过渡方案</small><strong>首期 ¥299 + 月租 ¥269</strong></div></div><div class="plan-details"><span>到期归还<b>¥0</b></span><span>届时买断<b>预计 ¥2,899</b></span><span>基础保障<b>已包含</b></span></div><button class="btn primary full" data-action="generate-lead"><i data-lucide="file-plus-2"></i>生成线索并预约到店</button></section>
+              <section class="side-section"><div class="side-title"><h3>关联设备档案</h3><button class="link-btn" data-action="open-product">详情</button></div><dl class="device-facts"><div><dt>设备串码</dt><dd>SN13-0821</dd></div><div><dt>电池健康</dt><dd>89%</dd></div><div><dt>屏幕</dt><dd>原装屏</dd></div><div><dt>可租库存</dt><dd class="green-text">1 台</dd></div></dl></section>
+            </div>
+            <div class="insight-content" data-insight-panel="customer"><section class="side-section"><div class="side-title"><h3>统一用户档案</h3><span class="tag green">新客</span></div><div class="customer-card"><span class="avatar green large">林</span><b>林先生</b><small>首次咨询 · 来源闲鱼</small></div><dl class="device-facts"><div><dt>手机号</dt><dd>待到店补充</dd></div><div><dt>意向机型</dt><dd>iPhone 13</dd></div><div><dt>预算</dt><dd>300 元/月内</dd></div><div><dt>最近跟进</dt><dd>刚刚</dd></div></dl></section><section class="side-section"><div class="side-title"><h3>生命周期记录</h3></div><div class="timeline"><div class="active"><i></i><span><b>闲鱼咨询</b><small>今天 10:24</small></span></div><div><i></i><span><b>待预约到店</b><small>预计今天 16:30</small></span></div><div><i></i><span><b>方案/订单</b><small>尚未生成</small></span></div></div></section></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="page" data-page="products">
+        <div class="page-header compact"><div><h1>二手手机</h1><p>统一管理闲鱼商品、实体设备档案、可租库存和商品知识。</p></div><div class="header-actions"><button class="btn secondary" data-action="import-device"><i data-lucide="usb"></i>USB 读取入库</button><button class="btn primary" data-action="sync-products"><i data-lucide="refresh-cw"></i>同步闲鱼商品</button></div></div>
+        <div class="subnav"><button class="active">商品列表 <b>128</b></button><button>设备档案 <b>214</b></button><button>待补充知识 <b class="warn-text">6</b></button><button>上下架任务 <b>2</b></button></div>
+        <section class="panel filter-panel"><div class="filter-row"><label class="search grow"><i data-lucide="search"></i><input id="productSearch" placeholder="搜索商品名称、商品 ID、IMEI 或设备串码"></label><select><option>全部店铺</option><option>城南数码旗舰店</option><option>万达手机快修</option></select><select><option>全部状态</option><option>在售</option><option>已下架</option><option>草稿</option></select><select><option>知识完整度</option><option>已完整</option><option>待补充</option></select><button class="btn secondary small">重置</button></div></section>
+        <section class="panel">
+          <div class="bulkbar"><label><input type="checkbox"> 已选 0 项</label><div><button class="btn secondary tiny">批量上架</button><button class="btn secondary tiny">批量下架</button><button class="btn secondary tiny">生成营销素材</button></div><span>最近同步：今天 10:18</span></div>
+          <div class="table-wrap"><table class="product-table"><thead><tr><th><input type="checkbox"></th><th>商品 / 设备</th><th>店铺</th><th>售价 / 租赁方案</th><th>库存</th><th>知识完整度</th><th>闲鱼状态</th><th>近 7 日</th><th>操作</th></tr></thead><tbody id="productRows"></tbody></table></div>
+          <div class="pagination"><span>共 128 件商品</span><div><button disabled><i data-lucide="chevron-left"></i></button><button class="active">1</button><button>2</button><button>3</button><button><i data-lucide="chevron-right"></i></button></div></div>
+        </section>
+      </section>
+
+      <section class="page" data-page="orders">
+        <div class="page-header compact"><div><h1>订单管理</h1><p>管理销售、租赁、到店和售后履约，保留设备全生命周期记录。</p></div><button class="btn primary" data-action="create-order"><i data-lucide="plus"></i>新建门店订单</button></div>
+        <div class="metric-grid five compact-metrics"><article class="status-metric active"><span>全部订单</span><strong>286</strong></article><article class="status-metric"><span>待付款</span><strong>7</strong></article><article class="status-metric"><span>待发货</span><strong>4</strong></article><article class="status-metric"><span>租赁中</span><strong>38</strong></article><article class="status-metric"><span>即将到期</span><strong class="warn-text">5</strong></article></div>
+        <section class="panel filter-panel"><div class="filter-row"><label class="search grow"><i data-lucide="search"></i><input placeholder="搜索订单号、买家昵称、手机号或设备串码"></label><select><option>全部订单类型</option><option>租赁订单</option><option>销售订单</option><option>到店订单</option></select><select><option>全部履约状态</option><option>待付款</option><option>待发货</option><option>租赁中</option><option>即将到期</option></select><button class="btn secondary small"><i data-lucide="calendar-days"></i>下单时间</button><button class="btn secondary small">重置</button></div></section>
+        <section class="panel"><div class="table-wrap"><table><thead><tr><th>订单</th><th>买家</th><th>商品 / 设备</th><th>类型</th><th>金额</th><th>履约状态</th><th>租期 / 到期</th><th>来源</th><th>操作</th></tr></thead><tbody id="orderRows"></tbody></table></div><div class="pagination"><span>共 286 条订单</span><div><button disabled><i data-lucide="chevron-left"></i></button><button class="active">1</button><button>2</button><button>3</button><button><i data-lucide="chevron-right"></i></button></div></div></section>
+      </section>
+
+      <section class="page" data-page="templates">
+        <div class="page-header compact"><div><h1>消息模板</h1><p>将常见咨询沉淀为可审计的标准回复，支持人工快捷发送和 AI 引用。</p></div><button class="btn primary" data-action="new-template"><i data-lucide="plus"></i>新建模板</button></div>
+        <div class="template-layout">
+          <aside class="panel category-panel"><div class="panel-head"><h2>模板分类</h2></div><button class="category active"><i data-lucide="layout-grid"></i>全部模板 <b>24</b></button><button class="category"><i data-lucide="badge-dollar-sign"></i>价格与议价 <b>6</b></button><button class="category"><i data-lucide="shield-check"></i>成色与质检 <b>5</b></button><button class="category"><i data-lucide="truck"></i>发货与到店 <b>4</b></button><button class="category"><i data-lucide="repeat-2"></i>租赁与买断 <b>5</b></button><button class="category"><i data-lucide="wrench"></i>售后与维修 <b>4</b></button><div class="category-tip"><i data-lucide="info"></i><span>模板解决固定表达；涉及库存、价格和订单的动态信息，仍从实时数据读取。</span></div></aside>
+          <section class="panel template-panel"><div class="panel-head"><label class="search"><i data-lucide="search"></i><input placeholder="搜索模板名称或内容"></label><select><option>最近更新</option><option>调用次数</option></select></div><div class="template-grid">
+            <article class="template-card"><div><span class="tag blue">价格与议价</span><button class="icon-btn plain"><i data-lucide="ellipsis"></i></button></div><h3>询问最低价</h3><p>这台机器目前标价是 {{商品售价}}。如果您是到店自提，我可以根据门店当日活动再帮您确认；低于系统底价的优惠需要人工审核。</p><footer><span>近 7 日调用 136 次</span><button class="link-btn" data-action="edit-template">编辑</button></footer></article>
+            <article class="template-card"><div><span class="tag purple">租赁与买断</span><button class="icon-btn plain"><i data-lucide="ellipsis"></i></button></div><h3>短期租赁方案</h3><p>如果您是短期过渡使用，可以选择 {{租期}} 方案：首期 {{首期金额}}，月租 {{月租金额}}，到期可归还或按届时买断价购买。</p><footer><span>近 7 日调用 89 次</span><button class="link-btn" data-action="edit-template">编辑</button></footer></article>
+            <article class="template-card"><div><span class="tag green">成色与质检</span><button class="icon-btn plain"><i data-lucide="ellipsis"></i></button></div><h3>设备成色说明</h3><p>这台 {{商品型号}} 的成色等级是 {{成色等级}}，电池健康 {{电池健康}}，屏幕 {{屏幕情况}}，已完成门店 38 项检测。</p><footer><span>近 7 日调用 78 次</span><button class="link-btn" data-action="edit-template">编辑</button></footer></article>
+            <article class="template-card"><div><span class="tag orange">发货与到店</span><button class="icon-btn plain"><i data-lucide="ellipsis"></i></button></div><h3>预约到店</h3><p>已为您预约 {{到店时间}} 到店看机，门店地址是 {{门店地址}}。到店后可现场验机，再决定购买或租赁方案。</p><footer><span>近 7 日调用 61 次</span><button class="link-btn" data-action="edit-template">编辑</button></footer></article>
+          </div></section>
+        </div>
+      </section>
+
+      <section class="page" data-page="ai">
+        <div class="page-header compact"><div><h1>AI 客服</h1><p>配置接待边界、商品知识、转人工规则和回复效果。</p></div><div class="header-actions"><span class="save-state"><i data-lucide="check-circle-2"></i>设置已保存</span><button class="btn primary" data-action="save-settings"><i data-lucide="save"></i>保存设置</button></div></div>
+        <div class="ai-tabs"><button class="active" data-ai-tab="basic">基础配置</button><button data-ai-tab="qa">Q&A 规则 <b>18</b></button><button data-ai-tab="knowledge">商品知识 <b>128</b></button><button data-ai-tab="style">风格库 <b>4</b></button><button data-ai-tab="logs">调用日志</button></div>
+        <div class="ai-panel active" data-ai-panel="basic">
+          <div class="ai-config-grid">
+            <section class="panel config-card"><div class="panel-head"><div><h2>AI 角色与边界</h2><p>定义回复风格和不可越过的业务边界。</p></div><span class="tag green">运行中</span></div><div class="form-body"><label>角色设定<textarea rows="10">你是城南数码的专业二手手机顾问。回复自然、简洁、可信，优先帮助买家判断买、租、修、换哪种方案更合适。
+
+必须遵守：
+1. 商品信息仅使用已绑定的设备档案；
+2. 不承诺未核实的库存、价格、优惠和售后；
+3. 投诉、退款、纠纷、价格冲突必须转人工；
+4. 对疑似套现用户不强调额度和变现；
+5. 明确到店或下单意向时生成线索并提醒店员。</textarea><small>AI 不应将租赁表达为贷款或额度服务。</small></label></div></section>
+            <section class="panel config-card"><div class="panel-head"><div><h2>自动接待策略</h2><p>控制回复时机和人工介入条件。</p></div></div><div class="form-body stack"><div class="setting-row"><span><b>自动回复新消息</b><small>在启用 AI 的店铺中生效</small></span><label class="switch"><input type="checkbox" checked><span></span></label></div><div class="setting-row"><span><b>高意向线索提醒</b><small>到店、下单、确认方案时提醒</small></span><label class="switch"><input type="checkbox" checked><span></span></label></div><div class="setting-row"><span><b>敏感场景自动转人工</b><small>退款、投诉、纠纷、价格冲突</small></span><label class="switch"><input type="checkbox" checked><span></span></label></div><label>首次回复延迟<div class="range-row"><input type="range" min="1" max="8" value="2"><b>2 秒</b></div></label><label>连续对话冷却<div class="range-row"><input type="range" min="5" max="60" value="20"><b>20 秒</b></div></label><label>人工未接管时的提醒方式<select><option>站内通知 + 虚拟电话</option><option>仅站内通知</option><option>小程序通知</option></select></label></div></section>
+          </div>
+          <section class="panel"><div class="panel-head"><div><h2>转人工规则</h2><p>规则命中后停止 AI 自动发送，并进入人工队列。</p></div><button class="btn secondary small" data-action="add-rule"><i data-lucide="plus"></i>新增规则</button></div><div class="rule-list"><div class="rule-row"><span class="rule-icon red"><i data-lucide="badge-alert"></i></span><span><b>投诉、退款或纠纷</b><small>命中“投诉、平台介入、退款、赔偿、假货”等意图</small></span><span class="tag red">立即转人工</span><label class="switch"><input checked type="checkbox"><span></span></label></div><div class="rule-row"><span class="rule-icon orange"><i data-lucide="badge-dollar-sign"></i></span><span><b>价格或库存冲突</b><small>闲鱼展示价、设备档案和店铺规则不一致</small></span><span class="tag orange">停止承诺</span><label class="switch"><input checked type="checkbox"><span></span></label></div><div class="rule-row"><span class="rule-icon blue"><i data-lucide="scan-search"></i></span><span><b>商品识别失败</b><small>无法从商品卡片、图片或串码匹配唯一设备</small></span><span class="tag blue">请求补充</span><label class="switch"><input checked type="checkbox"><span></span></label></div></div></section>
+        </div>
+        <div class="ai-panel" data-ai-panel="qa"><section class="panel empty-state"><i data-lucide="messages-square"></i><h2>Q&A 规则库</h2><p>已配置 18 条优先回复规则，覆盖议价、发货、到店、售后和租赁买断。</p><button class="btn primary" data-action="new-template">新增规则</button></section></div>
+        <div class="ai-panel" data-ai-panel="knowledge"><section class="panel"><div class="panel-head"><div><h2>商品知识完整度</h2><p>知识来自闲鱼商品、设备档案、租赁策略和店铺规则。</p></div><button class="btn secondary small" data-nav="products">前往商品管理</button></div><div class="knowledge-summary"><div><strong>122</strong><span>知识完整</span></div><div><strong class="warn-text">6</strong><span>待补充</span></div><div><strong>95.3%</strong><span>可自动回答</span></div></div></section></div>
+        <div class="ai-panel" data-ai-panel="style"><section class="panel empty-state"><i data-lucide="palette"></i><h2>客服风格库</h2><p>当前使用“专业亲切”，另有简洁直接、本地熟客、年轻活力 3 种风格。</p><button class="btn secondary" data-action="style-preview">预览风格</button></section></div>
+        <div class="ai-panel" data-ai-panel="logs"><section class="panel"><div class="panel-head"><div><h2>调用日志</h2><p>查看 AI 回复的输入来源、引用数据、风险判断和最终动作。</p></div><button class="btn secondary small"><i data-lucide="download"></i>导出</button></div><div class="table-wrap"><table><thead><tr><th>时间</th><th>店铺 / 会话</th><th>买家问题</th><th>读取数据</th><th>AI 动作</th><th>耗时</th></tr></thead><tbody><tr><td>10:26:12</td><td>城南数码 / 林先生</td><td>“下午四点半到，地址发我”</td><td>店铺规则、用户意图</td><td><span class="tag blue">建议预约</span></td><td>1.2s</td></tr><tr><td>10:25:36</td><td>城南数码 / 林先生</td><td>“租的话最低多少”</td><td>设备档案、租赁策略</td><td><span class="tag green">自动回复</span></td><td>1.6s</td></tr><tr><td>10:18:04</td><td>万达快修 / 用户_8123</td><td>“我要投诉，屏幕有问题”</td><td>售后规则、订单</td><td><span class="tag red">转人工</span></td><td>0.8s</td></tr></tbody></table></div></section></div>
+      </section>
+
+      <section class="page" data-page="analytics">
+        <div class="page-header compact"><div><h1>经营数据</h1><p>从流量到成交，再到续租、买断、维修和换机的完整经营视图。</p></div><div class="header-actions"><select><option>全部店铺</option><option>城南数码旗舰店</option></select><button class="btn secondary"><i data-lucide="calendar-days"></i>近 30 天</button><button class="btn secondary"><i data-lucide="download"></i>导出</button></div></div>
+        <div class="metric-grid five"><article class="metric-card simple"><span>有效咨询</span><strong>1,286</strong><small><b class="up">↑ 18.2%</b></small></article><article class="metric-card simple"><span>方案转化率</span><strong>31.6%</strong><small><b class="up">↑ 4.8%</b></small></article><article class="metric-card simple"><span>成交订单</span><strong>186</strong><small>租赁 68 / 销售 118</small></article><article class="metric-card simple"><span>门店服务收入</span><strong>¥42,860</strong><small>租金、维修、置换</small></article><article class="metric-card simple"><span>复购/续租率</span><strong>27.4%</strong><small><b class="up">↑ 3.1%</b></small></article></div>
+        <div class="analytics-grid"><section class="panel chart-panel"><div class="panel-head"><div><h2>线索与成交趋势</h2><p>近 14 天</p></div><div class="legend"><span><i class="blue"></i>有效线索</span><span><i class="green"></i>成交</span></div></div><div class="bar-chart" id="barChart"></div></section><section class="panel lifecycle-panel"><div class="panel-head"><div><h2>租后生命周期</h2><p>租赁订单后续价值</p></div></div><div class="donut-wrap"><div class="donut"><span><b>68</b><small>租赁订单</small></span></div><div class="donut-legend"><span><i style="background:#2d6cdf"></i>租赁中 <b>38</b></span><span><i style="background:#15a378"></i>已买断 <b>12</b></span><span><i style="background:#7b61d1"></i>已续租 <b>8</b></span><span><i style="background:#f59e0b"></i>已换机 <b>6</b></span><span><i style="background:#94a3b8"></i>已归还 <b>4</b></span></div></div></section></div>
+        <section class="panel"><div class="panel-head"><div><h2>AI 客服效果</h2><p>判断 AI 是否真正减少漏回并推动成交。</p></div></div><div class="ai-performance"><div><span>自动回复成功率</span><strong>91.8%</strong><div><i style="width:91.8%"></i></div></div><div><span>平均首次响应</span><strong>2.4 秒</strong><div><i style="width:82%"></i></div></div><div><span>人工接管率</span><strong>17.6%</strong><div><i class="orange" style="width:17.6%"></i></div></div><div><span>AI 促成线索</span><strong>326</strong><div><i class="green" style="width:68%"></i></div></div></div></section>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true"><header><div><span class="eyebrow" id="drawerEyebrow">设备档案</span><h2 id="drawerTitle">iPhone 13 128G 星光色</h2></div><button class="icon-btn plain" data-action="close-drawer"><i data-lucide="x"></i></button></header><div class="drawer-body" id="drawerBody"></div><footer><button class="btn secondary" data-action="close-drawer">取消</button><button class="btn primary" data-action="save-drawer"><i data-lucide="save"></i>保存更新</button></footer></aside>
+
+  <div class="modal-backdrop" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true"><header><div><span class="modal-icon" id="modalIcon"><i data-lucide="scan-line"></i></span><div><h2 id="modalTitle">扫码授权闲鱼店铺</h2><p id="modalSubtitle">使用闲鱼 App 扫码完成店铺授权</p></div></div><button class="icon-btn plain" data-action="close-modal"><i data-lucide="x"></i></button></header><div class="modal-body" id="modalBody"></div></div></div>
+
+  <div class="popover" id="storePopover"><b>切换店铺</b><button><span class="store-logo blue">城</span><span>城南数码旗舰店<small>在线 · AI 接待中</small></span><i data-lucide="check"></i></button><button><span class="store-logo orange">万</span><span>万达手机快修<small>在线 · AI 接待中</small></span></button><button><span class="store-logo green">青</span><span>青禾二手优品<small>在线 · 人工接待</small></span></button><hr><button data-nav="stores"><i data-lucide="settings-2"></i><span>管理全部店铺</span></button></div>
+  <div class="popover profile-popover" id="profilePopover"><button data-action="settings"><i data-lucide="settings"></i>系统设置</button><button><i data-lucide="book-open"></i>帮助中心</button><hr><button data-action="logout"><i data-lucide="log-out"></i>退出登录</button></div>
+  <div class="notification-panel" id="notificationPanel"><div><h3>通知</h3><button class="text-btn">全部已读</button></div><button><span class="notice-icon red"><i data-lucide="message-circle-warning"></i></span><span><b>高意向线索等待接管</b><small>林先生已确认 16:30 到店</small></span></button><button><span class="notice-icon orange"><i data-lucide="package-check"></i></span><span><b>订单即将发货超时</b><small>订单 XY202608010089 剩余 1 小时</small></span></button><button><span class="notice-icon blue"><i data-lucide="calendar-clock"></i></span><span><b>5 位租赁用户即将到期</b><small>建议今天发起续租/买断跟进</small></span></button></div>
+  <div class="toast" id="toast"><i data-lucide="circle-check"></i><span>操作成功</span></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
