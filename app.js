@@ -29,6 +29,28 @@ const publishTasks = [
   { no: "PUB20260802011", code: "SNM50-1206", action: "发布到闲鱼", store: "万达手机快修", check: "知识缺失", state: "已拦截", reason: "缺少维修史照片和售后承诺" }
 ];
 
+const templateCategories = {
+  all: { title: "全部模板", desc: "覆盖价格、成色、发货、租赁和售后场景。" },
+  price: { title: "价格与议价", desc: "处理询价、最低价、到店优惠和低于底价转人工。" },
+  quality: { title: "成色与质检", desc: "解释成色、电池、屏幕、维修史和检测结论。" },
+  delivery: { title: "发货与到店", desc: "处理发货时效、到店验机、自提预约和地址。" },
+  rental: { title: "租赁与买断", desc: "解释首期、月租、租期、归还、买断和换机。" },
+  service: { title: "售后与维修", desc: "说明保障范围、维修处理、退款投诉和纠纷转人工。" }
+};
+
+const messageTemplates = [
+  { category: "price", tagClass: "blue", categoryName: "价格与议价", title: "询问最低价", body: "这台机器目前标价是 {{商品售价}}。如果您是到店自提，我可以根据门店当日活动再帮您确认；低于系统底价的优惠需要人工审核。", calls: 136 },
+  { category: "price", tagClass: "blue", categoryName: "价格与议价", title: "旧机抵扣预估", body: "旧机可以抵扣，但最终价格需要到店检测后确认。您可以先发型号、内存、成色和是否维修过，我帮您预估区间。", calls: 92 },
+  { category: "quality", tagClass: "green", categoryName: "成色与质检", title: "设备成色说明", body: "这台 {{商品型号}} 的成色等级是 {{成色等级}}，电池健康 {{电池健康}}，屏幕 {{屏幕情况}}，已完成门店 38 项检测。", calls: 78 },
+  { category: "quality", tagClass: "green", categoryName: "成色与质检", title: "维修史说明", body: "维修记录以设备档案为准。如果买家继续追问主板、屏幕或电池维修情况，资料不完整时必须转人工确认。", calls: 46 },
+  { category: "delivery", tagClass: "orange", categoryName: "发货与到店", title: "预约到店", body: "已为您预约 {{到店时间}} 到店看机，门店地址是 {{门店地址}}。到店后可现场验机，再决定购买或租赁方案。", calls: 61 },
+  { category: "delivery", tagClass: "orange", categoryName: "发货与到店", title: "发货时效", body: "{{付款时间}} 前完成下单可当天发货；超过发货时间会顺延到下一个工作日。发货前会再次核对设备串码和库存。", calls: 58 },
+  { category: "rental", tagClass: "purple", categoryName: "租赁与买断", title: "短期租赁方案", body: "如果您是短期过渡使用，可以选择 {{租期}} 方案：首期 {{首期金额}}，月租 {{月租金额}}，到期可归还或按届时买断价购买。", calls: 89 },
+  { category: "rental", tagClass: "purple", categoryName: "租赁与买断", title: "到期买断说明", body: "到期后可选择归还、续租或买断。买断价会按租期、设备状态和当时残值重新计算，具体以系统方案为准。", calls: 52 },
+  { category: "service", tagClass: "red", categoryName: "售后与维修", title: "售后保障范围", body: "门店提供 90 天基础保障。非人为故障可检测处理；进水、摔坏、私拆、屏幕人为损坏等需按检测结果确认。", calls: 74 },
+  { category: "service", tagClass: "red", categoryName: "售后与维修", title: "投诉退款转人工", body: "遇到投诉、退款、平台介入、赔偿、纠纷等问题，AI 不自动承诺处理结果，立即转人工接管。", calls: 33 }
+];
+
 const orders = [
   { no: "XY202608010089", time: "今天 09:42", buyer: "林女士", phone: "iPhone 14 Pro 256G", code: "SN14P-0281", type: "租赁订单", amount: "首期 ¥399", status: "待发货", term: "12 期 · 2027/07/31", source: "闲鱼" },
   { no: "XY202608010076", time: "今天 08:57", buyer: "周先生", phone: "iPhone 13 128G", code: "SN13-0712", type: "销售订单", amount: "¥3,199", status: "待发货", term: "-", source: "闲鱼" },
@@ -138,6 +160,26 @@ function renderPublishTasks() {
     const checkClass = task.check === "全部通过" ? "green" : "orange";
     return `<tr><td><b>${task.no}</b><small style="display:block;color:#667085;margin-top:3px">${task.action}</small></td><td>${product.name}<small style="display:block;color:#667085;margin-top:3px">${task.code}</small></td><td>${task.store}</td><td><span class="tag ${checkClass}">${task.check}</span></td><td><span class="tag ${stateClass}">${task.state}</span></td><td>${task.reason}</td><td><div class="row-actions"><button class="link-btn" data-material="${task.code}">查看素材</button><button class="link-btn" data-publish-product="${task.code}">重试</button></div></td></tr>`;
   }).join("");
+}
+
+function renderTemplates(category = "all", filter = "") {
+  const meta = templateCategories[category] || templateCategories.all;
+  document.getElementById("templatePanelTitle").textContent = meta.title;
+  document.getElementById("templatePanelDesc").textContent = meta.desc;
+  const keyword = filter.trim().toLowerCase();
+  const visibleTemplates = messageTemplates.filter(template => {
+    const matchCategory = category === "all" || template.category === category;
+    const matchKeyword = !keyword || [template.title, template.body, template.categoryName].some(value => value.toLowerCase().includes(keyword));
+    return matchCategory && matchKeyword;
+  });
+  document.getElementById("templateGrid").innerHTML = visibleTemplates.length ? visibleTemplates.map(template => `
+    <article class="template-card">
+      <div><span class="tag ${template.tagClass}">${template.categoryName}</span><button class="icon-btn plain" title="更多"><i data-lucide="ellipsis"></i></button></div>
+      <h3>${template.title}</h3>
+      <p>${template.body}</p>
+      <footer><span>近 7 日调用 ${template.calls} 次</span><button class="link-btn" data-action="edit-template">编辑</button></footer>
+    </article>`).join("") : `<section class="empty-state compact"><i data-lucide="search-x"></i><h2>没有匹配的模板</h2><p>请更换关键词，或新建一条模板。</p><button class="btn primary" data-action="new-template"><i data-lucide="plus"></i>新建模板</button></section>`;
+  initIcons();
 }
 
 function renderOrders() {
@@ -313,6 +355,16 @@ document.addEventListener("click", event => {
     return;
   }
 
+  const templateCategory = event.target.closest("[data-template-category]");
+  if (templateCategory) {
+    document.querySelectorAll("[data-template-category]").forEach(button => button.classList.toggle("active", button === templateCategory));
+    const search = document.getElementById("templateSearch");
+    search.value = "";
+    renderTemplates(templateCategory.dataset.templateCategory);
+    showToast(`已切换到${templateCategories[templateCategory.dataset.templateCategory].title}`);
+    return;
+  }
+
   const materialButton = event.target.closest("[data-material]");
   if (materialButton) { materialDrawer(products.find(item => item.code === materialButton.dataset.material)); return; }
 
@@ -370,6 +422,10 @@ document.addEventListener("click", event => {
 
 document.getElementById("conversationSearch").addEventListener("input", event => renderConversations(event.target.value));
 document.getElementById("productSearch").addEventListener("input", event => renderProducts(event.target.value));
+document.getElementById("templateSearch").addEventListener("input", event => {
+  const activeCategory = document.querySelector("[data-template-category].active")?.dataset.templateCategory || "all";
+  renderTemplates(activeCategory, event.target.value);
+});
 document.getElementById("useSuggestion").addEventListener("click", () => {
   document.getElementById("messageInput").value = "好的，已为您保留到今天 17:30。门店地址是南城万达广场 2 号门旁城南数码，到店报“林先生”即可。";
   document.getElementById("messageInput").focus();
@@ -408,6 +464,7 @@ renderProducts();
 renderDevices();
 renderKnowledgeGaps();
 renderPublishTasks();
+renderTemplates();
 renderOrders();
 renderChart();
 initIcons();

@@ -385,6 +385,7 @@ textarea { border: 1px solid #d0d5dd; border-radius: 6px; line-height: 1.62; }
 .locked-rules b, .locked-rules small { display: block; }
 .locked-rules small { margin-top: 3px; color: var(--muted); font-size: 11px; }
 .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 360px; text-align: center; }
+.empty-state.compact { grid-column: 1 / -1; min-height: 260px; }
 .empty-state > svg { width: 40px; height: 40px; margin-bottom: 14px; color: #7993bc; }
 .empty-state p { max-width: 520px; margin: 7px 0 18px; }
 .knowledge-summary { display: grid; grid-template-columns: repeat(3,1fr); padding: 24px; }
