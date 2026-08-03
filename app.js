@@ -27,6 +27,7 @@ const drawer = document.getElementById("drawer");
 const drawerBackdrop = document.getElementById("drawerBackdrop");
 const modalBackdrop = document.getElementById("modalBackdrop");
 const toast = document.getElementById("toast");
+let currentRole = "store";
 
 function initIcons() {
   if (window.lucide) window.lucide.createIcons({ attrs: { "aria-hidden": "true" } });
@@ -43,12 +44,31 @@ function closeFloating() {
   document.querySelectorAll(".popover.open, .notification-panel.open").forEach(el => el.classList.remove("open"));
 }
 
+function updateRoleChrome(isOps) {
+  const roleSwitch = document.getElementById("roleSwitch");
+  const profileBtn = document.getElementById("profileBtn");
+  roleSwitch.classList.toggle("ops", isOps);
+  roleSwitch.querySelector("span").textContent = isOps ? "平台运营端" : "门店老板端";
+  profileBtn.querySelector(".avatar").textContent = isOps ? "运" : "王";
+  profileBtn.querySelector("span:not(.avatar)").textContent = isOps ? "平台运营" : "王店长";
+}
+
 function navigate(pageName) {
   document.querySelectorAll(".page").forEach(page => page.classList.toggle("active", page.dataset.page === pageName));
   document.querySelectorAll(".nav-item").forEach(item => item.classList.toggle("active", item.dataset.nav === pageName));
+  currentRole = pageName === "ops" ? "ops" : "store";
+  updateRoleChrome(currentRole === "ops");
   closeFloating();
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (pageName === "im") setTimeout(() => { const messages = document.getElementById("messages"); messages.scrollTop = messages.scrollHeight; }, 50);
+}
+
+function setRole(role) {
+  currentRole = role;
+  const isOps = role === "ops";
+  updateRoleChrome(isOps);
+  navigate(isOps ? "ops" : "dashboard");
+  showToast(isOps ? "已切换到平台运营端，可管理模型、规则和审计" : "已切换到门店老板端，仅保留业务配置");
 }
 
 function renderConversations(filter = "") {
@@ -121,7 +141,7 @@ function productDrawer(product = products[0]) {
       <section class="form-section"><h3>商品信息</h3><div class="form-grid"><label>商品标题<input value="${product.name}｜38项检测｜门店可验机"></label><label>闲鱼售价<input value="${product.price.replace("¥", "")}"></label><label>所属店铺<select><option>${product.store}</option></select></label><label>可用库存<input value="${product.stock.replace(" 台", "")}"></label></div></section>
       <section class="form-section"><h3>设备档案</h3><div class="form-grid"><label>设备串码<input value="${product.code}"></label><label>IMEI<input value="35 642109 82•••• 1"></label><label>成色等级<select><option>${product.note.split(" · ")[0]}</option></select></label><label>电池健康<input value="${product.note.match(/电池\d+%/)?.[0].replace("电池","") || "待补充"}"></label><label>屏幕情况<select><option>${product.note.split(" · ")[2] || "待核验"}</option></select></label><label>维修记录<select><option>无主板维修记录</option></select></label></div></section>
       <section class="form-section"><h3>租赁与买断</h3><div class="form-grid"><label>首期金额<input value="${product.rent.includes("首期") ? product.rent.split(" / ")[0].replace("首期","") : "待配置"}"></label><label>月租金额<input value="${product.rent.includes("月租") ? product.rent.split("月租")[1] : "待配置"}"></label><label>默认租期<select><option>3 个月</option><option>6 个月</option><option>12 个月</option></select></label><label>预计买断价<input value="2899"></label></div></section>
-      <div class="drawer-note"><i data-lucide="triangle-alert"></i><span>商品、设备档案与租赁方案会共同供 AI 客服读取。价格或库存发生冲突时，系统会停止自动承诺并转人工。</span></div>`
+      <div class="drawer-note"><i data-lucide="triangle-alert"></i><span>商品、设备档案与租赁方案会共同供 AI 接待读取。价格或库存发生冲突时，系统会停止自动承诺并转人工。</span></div>`
   });
 }
 
@@ -229,7 +249,10 @@ document.addEventListener("click", event => {
   if (action === "phone-call") phoneModal();
   if (action === "confirm-call") { closeModal(); showToast("已发起虚拟电话，等待王店长接听"); }
   if (action === "save-drawer") { closeDrawer(); showToast("已保存，相关数据将供 AI 实时读取"); }
-  if (action === "save-settings") showToast("AI 客服设置已保存并生效");
+  if (action === "save-settings") showToast("已保存本店业务规则，平台安全规则不会被关闭");
+  if (action === "switch-role") setRole(currentRole === "store" ? "ops" : "store");
+  if (action === "publish-policy") showToast("策略已发布，命中的门店将在 5 分钟内生效");
+  if (action === "ops-template") showToast("已打开平台策略模板编辑器（演示）");
   if (action === "sync-products") showToast("已开始同步 3 家店铺的闲鱼商品");
   if (action === "refresh") showToast("店铺连接状态已刷新");
   if (action === "import-device") showToast("请通过 USB 连接待入库手机");
