@@ -51,6 +51,60 @@ const messageTemplates = [
   { category: "service", tagClass: "red", categoryName: "售后与维修", title: "投诉退款转人工", body: "遇到投诉、退款、平台介入、赔偿、纠纷等问题，AI 不自动承诺处理结果，立即转人工接管。", calls: 33 }
 ];
 
+const strategyTemplates = {
+  rental: {
+    name: "二手手机真实使用型租赁",
+    tag: "当前推荐",
+    storeType: "综合服务店 / 高活跃维修店",
+    status: "已发布",
+    applied: "624 家门店",
+    role: "你是二手手机门店的专业接待助手，只围绕真实用机需求回复。优先解释验机、成色、租赁、买断、售后和到店服务，不使用额度、变现、好通过等表达。",
+    boundary: "不承诺未核实库存、不承诺最终旧机抵扣价、不承诺平台规则外服务。遇到价格冲突、投诉退款、疑似套现、商品识别失败时停止自动发送并转人工。",
+    qa: "价格与议价、成色与质检、租赁与买断、售后与维修",
+    knowledge: "强制读取当前咨询商品绑定的设备知识包：串码、IMEI、品牌型号、颜色容量、成色、电池、屏幕、维修史、来源、售价、租金、首付、买断价、库存状态、售后承诺。",
+    rules: ["投诉 / 退款 / 纠纷", "库存不确定", "价格冲突或低于底价", "商品识别失败", "疑似套现", "平台违规词"],
+    model: "Doubao-Seed-2.0-lite",
+    temp: "0.3",
+    token: "512",
+    prompt: "phone-rental-v12",
+    scope: "二三线城市样板门店、已有闲鱼经营门店"
+  },
+  repair: {
+    name: "维修小店短租过渡方案",
+    tag: "维修过渡",
+    storeType: "维修小店",
+    status: "灰度中",
+    applied: "318 家门店",
+    role: "你是维修门店的备用机租赁接待助手，先判断用户是否因维修周期、备用机、学生机或短期工作机产生真实用机需求。",
+    boundary: "维修周期和备用机库存不确定时不自动承诺；涉及原机维修报价、赔偿、退款、维修争议时转人工。",
+    qa: "发货与到店、租赁与买断、售后与维修",
+    knowledge: "读取维修工单、备用机设备档案、短租价格、押金/首期规则、归还检查规则和门店营业时间。",
+    rules: ["维修争议", "备用机库存不确定", "归还规则不清", "短租低于底价", "投诉退款"],
+    model: "Doubao-Seed-2.0-lite",
+    temp: "0.2",
+    token: "512",
+    prompt: "repair-rental-v5",
+    scope: "维修类小店、仅短租过渡场景"
+  },
+  combo: {
+    name: "买/租/修/换综合接待",
+    tag: "综合服务店",
+    storeType: "综合服务店 / 卖场型门店",
+    status: "已发布",
+    applied: "492 家门店",
+    role: "你是门店手机使用方案顾问，根据用户预算、旧机情况、目标机型和使用周期，生成买、租、修、换、旧机抵扣的对比建议。",
+    boundary: "旧机抵扣只给预估区间；租赁方案需读取设备档案和租赁策略；用户只关心额度或变现时转人工核验。",
+    qa: "价格与议价、成色与质检、发货与到店、租赁与买断、售后与维修",
+    knowledge: "读取用户线索、设备档案、库存、租赁策略、旧机估值规则、售后规则和历史订单。",
+    rules: ["旧机估值不确定", "价格冲突", "库存不确定", "疑似套现", "平台违规词", "投诉退款"],
+    model: "Doubao-Seed-2.0-lite",
+    temp: "0.3",
+    token: "1024",
+    prompt: "phone-solution-v8",
+    scope: "可提供买卖、租赁、维修、回收置换的综合门店"
+  }
+};
+
 const orders = [
   { no: "XY202608010089", time: "今天 09:42", buyer: "林女士", phone: "iPhone 14 Pro 256G", code: "SN14P-0281", type: "租赁订单", amount: "首期 ¥399", status: "待发货", term: "12 期 · 2027/07/31", source: "闲鱼" },
   { no: "XY202608010076", time: "今天 08:57", buyer: "周先生", phone: "iPhone 13 128G", code: "SN13-0712", type: "销售订单", amount: "¥3,199", status: "待发货", term: "-", source: "闲鱼" },
@@ -199,11 +253,12 @@ function renderChart() {
   document.getElementById("barChart").innerHTML = data.map(([lead, order, day]) => `<div class="bar-group"><i style="height:${lead/max*100}%" title="有效线索 ${lead}"></i><i style="height:${order/max*100}%" title="成交 ${order}"></i><span>${day}</span></div>`).join("");
 }
 
-function openDrawer({ eyebrow = "详情", title = "", body = "", saveLabel = "保存更新" }) {
+function openDrawer({ eyebrow = "详情", title = "", body = "", saveLabel = "保存更新", wide = false }) {
   document.getElementById("drawerEyebrow").textContent = eyebrow;
   document.getElementById("drawerTitle").textContent = title;
   document.getElementById("drawerBody").innerHTML = body;
   drawer.querySelector("footer .primary").innerHTML = `<i data-lucide="save"></i>${saveLabel}`;
+  drawer.classList.toggle("wide", wide);
   drawer.classList.add("open");
   drawerBackdrop.classList.add("open");
   drawer.setAttribute("aria-hidden", "false");
@@ -260,6 +315,40 @@ function templateDrawer() {
     eyebrow: "消息模板",
     title: "编辑：询问最低价",
     body: `<section class="form-section"><div class="form-grid"><label>模板名称<input value="询问最低价"></label><label>模板分类<select><option>价格与议价</option></select></label><label class="span-2">触发关键词<input value="最低、便宜、优惠、少点、到手价"></label></div></section><section class="form-section"><label>回复模板<textarea rows="8">这台机器目前标价是 {{商品售价}}。如果您是到店自提，我可以根据门店当日活动再帮您确认；低于系统底价的优惠需要人工审核。</textarea></label></section><section class="form-section"><h3>可用动态字段</h3><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:9px"><span class="tag blue">{{商品售价}}</span><span class="tag blue">{{月租金额}}</span><span class="tag blue">{{首期金额}}</span><span class="tag blue">{{店铺地址}}</span><span class="tag blue">{{电池健康}}</span></div></section><div class="drawer-note"><i data-lucide="shield-check"></i><span>当实时价格低于店铺底价或商品价格与设备档案冲突时，本模板不会自动发送。</span></div>`
+  });
+}
+
+function opsTemplateDrawer(templateId = "new") {
+  const isNew = templateId === "new";
+  const template = strategyTemplates[templateId] || {
+    name: "新建 AI 策略模板",
+    tag: "草稿",
+    storeType: "二手手机租赁接待模板",
+    status: "草稿",
+    applied: "未应用",
+    role: "你是二手手机门店的专业接待助手，只围绕真实用机需求回复。",
+    boundary: "不承诺未核实库存、未核实价格、未核实售后结果；命中高风险规则时转人工。",
+    qa: "价格与议价、成色与质检、租赁与买断",
+    knowledge: "强制读取当前商品绑定的设备知识包，缺失关键字段时不自动回复。",
+    rules: ["投诉 / 退款 / 纠纷", "库存不确定", "价格冲突或低于底价", "商品识别失败", "疑似套现", "平台违规词"],
+    model: "Doubao-Seed-2.0-lite",
+    temp: "0.3",
+    token: "512",
+    prompt: "phone-rental-v12",
+    scope: "选择门店后发布"
+  };
+  openDrawer({
+    eyebrow: "平台运营后台 · AI 策略模板",
+    title: isNew ? "新增模板：二手手机租赁接待" : `编辑：${template.name}`,
+    saveLabel: "保存草稿",
+    wide: true,
+    body: `<div class="drawer-note" style="margin-bottom:18px"><i data-lucide="lock-keyhole"></i><span>该编辑器仅平台运营可见。门店老板端不会暴露 Prompt、模型、Temperature、Token 和底层风险规则。</span></div>
+      <section class="form-section"><h3>基础信息</h3><div class="form-grid"><label>模板名称<input value="${template.name}"></label><label>适用门店类型<input value="${template.storeType}"></label><label>启用状态<select><option>${template.status}</option><option>草稿</option><option>灰度中</option><option>已发布</option><option>停用</option></select></label><label>应用范围<input value="${template.scope}"></label><label>当前应用<input value="${template.applied}"></label><label>模板标签<input value="${template.tag}"></label></div></section>
+      <section class="form-section"><h3>角色设定与回复边界</h3><label>System Prompt / 角色设定<textarea rows="5">${template.role}</textarea></label><label style="margin-top:10px">强制回复边界<textarea rows="5">${template.boundary}</textarea></label></section>
+      <section class="form-section"><h3>Q&A 模板与设备知识依赖</h3><div class="form-grid"><label class="span-2">引用 Q&A 模板分类<input value="${template.qa}"></label><label class="span-2">设备知识包读取策略<textarea rows="5">${template.knowledge}</textarea></label></div><div class="source-grid" style="margin-top:10px"><span>绑定字段<b>串码 / IMEI / 商品ID</b></span><span>设备事实<b>型号、成色、电池、屏幕、维修史</b></span><span>交易事实<b>售价、首付、月租、买断价、库存</b></span><span>服务事实<b>发货、售后、门店地址、营业时间</b></span></div></section>
+      <section class="form-section"><h3>强制转人工规则</h3><div class="rule-check-grid">${template.rules.map(rule => `<label><input type="checkbox" checked disabled><span>${rule}</span><b>锁定</b></label>`).join("")}</div></section>
+      <section class="form-section"><h3>模型与调用参数</h3><div class="param-grid"><label>当前模型<select><option>${template.model}</option><option>GPT-5-mini · 灰度评估</option></select></label><label>Temperature<input value="${template.temp}"></label><label>最大 Token<select><option>${template.token}</option><option>1024</option></select></label><label>Prompt 版本<input value="${template.prompt}"></label><label>回复延时<input value="3 秒"></label><label>会话冷却<input value="10 秒"></label></div></section>
+      <section class="form-section"><h3>测试回复</h3><div class="ops-test-card"><p><b>模拟买家：</b>只看额度，机器不要，能不能秒下？</p><p><b>读取数据：</b>风险词库、租赁合规规则、当前设备知识包</p><p><b>命中规则：</b>疑似套现 + 平台违规表达</p><p><b>AI 动作：</b><span class="tag red">转人工，不自动发送</span></p><div class="row-actions"><button class="btn secondary small" data-action="test-ai-reply"><i data-lucide="message-square-text"></i>测试回复</button><button class="btn primary small" data-action="publish-template"><i data-lucide="send"></i>发布模板</button></div></div></section>`
   });
 }
 
@@ -394,7 +483,12 @@ document.addEventListener("click", event => {
   if (action === "save-settings") showToast("已保存本店业务规则，平台安全规则不会被关闭");
   if (action === "switch-role") setRole(currentRole === "store" ? "ops" : "store");
   if (action === "publish-policy") showToast("策略已发布，命中的门店将在 5 分钟内生效");
-  if (action === "ops-template") showToast("已打开平台策略模板编辑器（演示）");
+  if (action === "ops-template") opsTemplateDrawer(event.target.closest("[data-template-id]")?.dataset.templateId || "new");
+  if (action === "test-ai-reply") showToast("测试结果：命中疑似套现，AI 转人工且不自动发送");
+  if (action === "publish-template") showToast("模板已发布，命中的门店将在 5 分钟内生效并写入审计日志");
+  if (action === "review-correction") showToast("已进入纠错审核详情，确认后才会写入风格样本库");
+  if (action === "approve-correction") showToast("纠错已通过审核，并沉淀为标准回复样本");
+  if (action === "reject-correction") showToast("已驳回纠错，不会影响线上回复策略");
   if (action === "sync-products") showToast("已开始同步 3 家店铺的闲鱼商品");
   if (action === "refresh") showToast("店铺连接状态已刷新");
   if (action === "import-device") showToast("请通过 USB 连接待入库手机");
