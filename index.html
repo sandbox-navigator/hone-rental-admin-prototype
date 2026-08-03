@@ -144,13 +144,26 @@
 
       <section class="page" data-page="products">
         <div class="page-header compact"><div><h1>二手手机</h1><p>统一管理闲鱼商品、实体设备档案、可租库存和商品知识。</p></div><div class="header-actions"><button class="btn secondary" data-action="import-device"><i data-lucide="usb"></i>USB 读取入库</button><button class="btn primary" data-action="sync-products"><i data-lucide="refresh-cw"></i>同步闲鱼商品</button></div></div>
-        <div class="subnav"><button class="active">商品列表 <b>128</b></button><button>设备档案 <b>214</b></button><button>待补充知识 <b class="warn-text">6</b></button><button>上下架任务 <b>2</b></button></div>
-        <section class="panel filter-panel"><div class="filter-row"><label class="search grow"><i data-lucide="search"></i><input id="productSearch" placeholder="搜索商品名称、商品 ID、IMEI 或设备串码"></label><select><option>全部店铺</option><option>城南数码旗舰店</option><option>万达手机快修</option></select><select><option>全部状态</option><option>在售</option><option>已下架</option><option>草稿</option></select><select><option>知识完整度</option><option>已完整</option><option>待补充</option></select><button class="btn secondary small">重置</button></div></section>
-        <section class="panel">
-          <div class="bulkbar"><label><input type="checkbox"> 已选 0 项</label><div><button class="btn secondary tiny">批量上架</button><button class="btn secondary tiny">批量下架</button><button class="btn secondary tiny">生成营销素材</button></div><span>最近同步：今天 10:18</span></div>
-          <div class="table-wrap"><table class="product-table"><thead><tr><th><input type="checkbox"></th><th>商品 / 设备</th><th>店铺</th><th>售价 / 租赁方案</th><th>库存</th><th>知识完整度</th><th>闲鱼状态</th><th>近 7 日</th><th>操作</th></tr></thead><tbody id="productRows"></tbody></table></div>
-          <div class="pagination"><span>共 128 件商品</span><div><button disabled><i data-lucide="chevron-left"></i></button><button class="active">1</button><button>2</button><button>3</button><button><i data-lucide="chevron-right"></i></button></div></div>
-        </section>
+        <div class="subnav product-tabs"><button class="active" data-product-tab="list">商品列表 <b>128</b></button><button data-product-tab="devices">设备档案 <b>214</b></button><button data-product-tab="knowledge">待补充知识 <b class="warn-text">6</b></button><button data-product-tab="publish">上下架任务 <b>2</b></button></div>
+        <div class="publish-gate"><i data-lucide="shield-check"></i><span><b>发布前置规则</b> 商品必须先完成设备档案、AI 素材、价格/库存校验和人工审阅，才允许自动发布到闲鱼。</span><button class="link-btn" data-action="marketing-material">生成营销素材</button></div>
+        <div class="product-panel active" data-product-panel="list">
+          <section class="panel filter-panel"><div class="filter-row"><label class="search grow"><i data-lucide="search"></i><input id="productSearch" placeholder="搜索商品名称、商品 ID、IMEI 或设备串码"></label><select><option>全部店铺</option><option>城南数码旗舰店</option><option>万达手机快修</option></select><select><option>全部状态</option><option>在售</option><option>已下架</option><option>草稿</option></select><select><option>发布状态</option><option>待补素材</option><option>待审核</option><option>可上架</option><option>上架失败</option></select><button class="btn secondary small">重置</button></div></section>
+          <section class="panel">
+            <div class="bulkbar"><label><input type="checkbox"> 已选 0 项</label><div><button class="btn secondary tiny" data-action="bulk-publish">批量上架</button><button class="btn secondary tiny" data-action="bulk-down">批量下架</button><button class="btn secondary tiny" data-action="marketing-material">生成营销素材</button></div><span>最近同步：今天 10:18</span></div>
+            <div class="table-wrap"><table class="product-table"><thead><tr><th><input type="checkbox"></th><th>商品 / 设备</th><th>店铺</th><th>售价 / 租赁方案</th><th>库存</th><th>知识完整度</th><th>发布状态</th><th>闲鱼状态</th><th>近 7 日</th><th>操作</th></tr></thead><tbody id="productRows"></tbody></table></div>
+            <div class="pagination"><span>共 128 件商品</span><div><button disabled><i data-lucide="chevron-left"></i></button><button class="active">1</button><button>2</button><button>3</button><button><i data-lucide="chevron-right"></i></button></div></div>
+          </section>
+        </div>
+        <div class="product-panel" data-product-panel="devices">
+          <section class="panel filter-panel"><div class="filter-row"><label class="search grow"><i data-lucide="search"></i><input placeholder="搜索设备串码、IMEI、品牌型号"></label><select><option>全部品牌</option><option>Apple</option><option>华为</option><option>Redmi</option></select><select><option>全部成色</option><option>95新</option><option>9成新</option></select><select><option>可租状态</option><option>可租</option><option>待配置</option><option>不可租</option></select><button class="btn secondary small">重置</button></div></section>
+          <section class="panel"><div class="table-wrap"><table><thead><tr><th>设备 / 串码</th><th>IMEI</th><th>成色 / 电池</th><th>屏幕 / 维修史</th><th>来源 / 成本</th><th>库存状态</th><th>可租</th><th>知识完整度</th><th>操作</th></tr></thead><tbody id="deviceRows"></tbody></table></div></section>
+        </div>
+        <div class="product-panel" data-product-panel="knowledge">
+          <section class="panel"><div class="panel-head"><div><h2>待补充知识</h2><p>缺失项会影响 AI 回复、素材生成和闲鱼发布。</p></div><button class="btn secondary small" data-action="marketing-material"><i data-lucide="sparkles"></i>生成素材前检查</button></div><div class="table-wrap"><table><thead><tr><th>商品 / 设备</th><th>缺失项</th><th>影响范围</th><th>AI 处理方式</th><th>是否阻断上架</th><th>建议动作</th></tr></thead><tbody id="knowledgeRows"></tbody></table></div></section>
+        </div>
+        <div class="product-panel" data-product-panel="publish">
+          <section class="panel"><div class="panel-head"><div><h2>上下架任务</h2><p>只有通过发布前置校验的商品才会进入任务队列。</p></div><div class="toolbar"><button class="btn secondary small" data-action="bulk-publish"><i data-lucide="upload-cloud"></i>加入上架任务</button><button class="btn secondary small" data-action="refresh"><i data-lucide="refresh-cw"></i>刷新</button></div></div><div class="table-wrap"><table><thead><tr><th>任务</th><th>商品 / 设备</th><th>目标店铺</th><th>前置校验</th><th>状态</th><th>失败原因</th><th>操作</th></tr></thead><tbody id="publishRows"></tbody></table></div></section>
+        </div>
       </section>
 
       <section class="page" data-page="orders">

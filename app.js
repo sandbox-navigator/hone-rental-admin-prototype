@@ -8,11 +8,25 @@ const conversations = [
 ];
 
 const products = [
-  { id: "XY88120311", code: "SN13-0821", name: "iPhone 13 128G 星光色", note: "95新 · 电池89% · 原装屏", tone: "dark", store: "城南数码旗舰店", price: "¥3,299", rent: "首期299 / 月租269", stock: "1 台", completeness: 100, status: "在售", stats: "咨询 86 · 线索 19" },
-  { id: "XY88120346", code: "SN14P-0318", name: "iPhone 14 Pro 256G 暗紫色", note: "9成新 · 电池86% · 原装屏", tone: "dark", store: "城南数码旗舰店", price: "¥5,199", rent: "首期399 / 月租359", stock: "2 台", completeness: 100, status: "在售", stats: "咨询 63 · 线索 12" },
-  { id: "XY77540219", code: "SNM50-1206", name: "华为 Mate 50 256G 昆仑霞光", note: "95新 · 电池92% · 无拆修", tone: "gold", store: "万达手机快修", price: "¥3,599", rent: "首期299 / 月租289", stock: "1 台", completeness: 82, status: "在售", stats: "咨询 41 · 线索 8" },
-  { id: "XY66310872", code: "SN12-0415", name: "iPhone 12 128G 白色", note: "9成新 · 电池84% · 更换电池", tone: "light", store: "青禾二手优品", price: "¥2,199", rent: "待配置租赁方案", stock: "3 台", completeness: 64, status: "草稿", stats: "咨询 0 · 线索 0" },
-  { id: "XY55831092", code: "SNK60-0221", name: "Redmi K60 12+256G 墨羽", note: "95新 · 电池95% · 无拆修", tone: "dark", store: "万达手机快修", price: "¥1,699", rent: "首期199 / 月租169", stock: "0 台", completeness: 100, status: "已下架", stats: "咨询 28 · 线索 5" }
+  { id: "XY88120311", code: "SN13-0821", imei: "356421098212031", name: "iPhone 13 128G 星光色", brand: "Apple", note: "95新 · 电池89% · 原装屏", tone: "dark", store: "城南数码旗舰店", price: "¥3,299", rent: "首期299 / 月租269", stock: "1 台", completeness: 100, status: "在售", publishStatus: "可上架", materialStatus: "素材已生成", source: "门店回收", cost: "¥2,680", rentable: "可租", stats: "咨询 86 · 线索 19" },
+  { id: "XY88120346", code: "SN14P-0318", imei: "358201146403182", name: "iPhone 14 Pro 256G 暗紫色", brand: "Apple", note: "9成新 · 电池86% · 原装屏", tone: "dark", store: "城南数码旗舰店", price: "¥5,199", rent: "首期399 / 月租359", stock: "2 台", completeness: 100, status: "在售", publishStatus: "待审核", materialStatus: "素材已生成", source: "供应链采购", cost: "¥4,420", rentable: "可租", stats: "咨询 63 · 线索 12" },
+  { id: "XY77540219", code: "SNM50-1206", imei: "867142050120619", name: "华为 Mate 50 256G 昆仑霞光", brand: "华为", note: "95新 · 电池92% · 无拆修", tone: "gold", store: "万达手机快修", price: "¥3,599", rent: "首期299 / 月租289", stock: "1 台", completeness: 82, status: "在售", publishStatus: "待补素材", materialStatus: "待生成", source: "以旧换新", cost: "¥2,900", rentable: "可租", stats: "咨询 41 · 线索 8" },
+  { id: "XY66310872", code: "SN12-0415", imei: "352780110415668", name: "iPhone 12 128G 白色", brand: "Apple", note: "9成新 · 电池84% · 更换电池", tone: "light", store: "青禾二手优品", price: "¥2,199", rent: "待配置租赁方案", stock: "3 台", completeness: 64, status: "草稿", publishStatus: "待补资料", materialStatus: "待生成", source: "门店回收", cost: "¥1,620", rentable: "待配置", stats: "咨询 0 · 线索 0" },
+  { id: "XY55831092", code: "SNK60-0221", imei: "861082660221605", name: "Redmi K60 12+256G 墨羽", brand: "Redmi", note: "95新 · 电池95% · 无拆修", tone: "dark", store: "万达手机快修", price: "¥1,699", rent: "首期199 / 月租169", stock: "0 台", completeness: 100, status: "已下架", publishStatus: "上架失败", materialStatus: "素材已生成", source: "供应链采购", cost: "¥1,180", rentable: "不可租", stats: "咨询 28 · 线索 5" }
+];
+
+const knowledgeGaps = [
+  { code: "SNM50-1206", missing: "维修史照片、售后承诺", impact: "成色说明、AI 客服、素材详情页", action: "建议人工确认", block: "阻断上架" },
+  { code: "SN12-0415", missing: "租赁底价、买断价、电池更换凭证", impact: "租赁方案、议价、发布价格", action: "不承诺价格", block: "阻断上架" },
+  { code: "SN12-0415", missing: "第 7 张标签图", impact: "闲鱼商品识别、AI 回复", action: "请求补图", block: "阻断上架" },
+  { code: "SNK60-0221", missing: "可用库存", impact: "自动上下架、客服承诺", action: "停止承诺", block: "阻断上架" }
+];
+
+const publishTasks = [
+  { no: "PUB20260803001", code: "SN13-0821", action: "发布到闲鱼", store: "城南数码旗舰店", check: "全部通过", state: "待发布", reason: "-" },
+  { no: "PUB20260803002", code: "SN14P-0318", action: "发布到闲鱼", store: "城南数码旗舰店", check: "待人工审核", state: "需人工处理", reason: "素材已生成，但店长未确认" },
+  { no: "PUB20260802019", code: "SNK60-0221", action: "重新上架", store: "万达手机快修", check: "库存失败", state: "上架失败", reason: "可用库存为 0，不能承诺在售" },
+  { no: "PUB20260802011", code: "SNM50-1206", action: "发布到闲鱼", store: "万达手机快修", check: "知识缺失", state: "已拦截", reason: "缺少维修史照片和售后承诺" }
 ];
 
 const orders = [
@@ -86,16 +100,44 @@ function renderProducts(filter = "") {
   rows.innerHTML = products.filter(product => [product.name, product.id, product.code].some(value => value.toLowerCase().includes(filter.toLowerCase()))).map(product => {
     const knowledgeClass = product.completeness < 100 ? "warn" : "";
     const statusClass = product.status === "在售" ? "green" : product.status === "草稿" ? "orange" : "blue";
+    const publishClass = product.publishStatus === "可上架" ? "green" : product.publishStatus === "待审核" ? "blue" : product.publishStatus === "上架失败" || product.publishStatus === "待补资料" ? "red" : "orange";
     return `<tr>
       <td><input type="checkbox"></td>
       <td><div class="product-cell"><div class="phone-thumb ${product.tone}"><span></span></div><span><b>${product.name}</b><small>商品ID ${product.id} · 设备 ${product.code}</small><small>${product.note}</small></span></div></td>
       <td>${product.store}</td><td><div class="price-stack"><b>${product.price}</b><small>${product.rent}</small></div></td><td>${product.stock}</td>
       <td><div class="progress-label ${knowledgeClass}"><span><i style="width:${product.completeness}%"></i></span><b>${product.completeness}%</b></div></td>
-      <td><span class="tag ${statusClass}">${product.status}</span></td><td>${product.stats}</td>
-      <td><div class="row-actions"><button class="link-btn" data-product="${product.code}">详情</button><button class="icon-btn plain" title="更多"><i data-lucide="ellipsis"></i></button></div></td>
+      <td><span class="tag ${publishClass}">${product.publishStatus}</span></td><td><span class="tag ${statusClass}">${product.status}</span></td><td>${product.stats}</td>
+      <td><div class="row-actions"><button class="link-btn" data-product="${product.code}">详情</button><button class="link-btn" data-material="${product.code}">素材</button><button class="link-btn" data-publish-product="${product.code}">发布</button></div></td>
     </tr>`;
   }).join("");
   initIcons();
+}
+
+function renderDevices() {
+  document.getElementById("deviceRows").innerHTML = products.map(product => {
+    const screen = product.note.split(" · ")[2] || "待核验";
+    const condition = product.note.split(" · ")[0];
+    const battery = product.note.match(/电池\d+%/)?.[0] || "电池待补";
+    const rentClass = product.rentable === "可租" ? "green" : product.rentable === "待配置" ? "orange" : "red";
+    return `<tr><td><div class="product-cell"><div class="phone-thumb ${product.tone}"><span></span></div><span><b>${product.name}</b><small>设备 ${product.code}</small></span></div></td><td>${product.imei}</td><td>${condition} / ${battery}</td><td>${screen} / ${product.note.includes("无拆修") ? "无拆修" : "有记录"}</td><td>${product.source} / ${product.cost}</td><td>${product.stock}</td><td><span class="tag ${rentClass}">${product.rentable}</span></td><td><div class="progress-label ${product.completeness < 100 ? "warn" : ""}"><span><i style="width:${product.completeness}%"></i></span><b>${product.completeness}%</b></div></td><td><button class="link-btn" data-product="${product.code}">详情</button></td></tr>`;
+  }).join("");
+  initIcons();
+}
+
+function renderKnowledgeGaps() {
+  document.getElementById("knowledgeRows").innerHTML = knowledgeGaps.map(item => {
+    const product = products.find(product => product.code === item.code) || products[0];
+    return `<tr><td><div><b>${product.name}</b><small style="display:block;color:#667085;margin-top:3px">${item.code}</small></div></td><td>${item.missing}</td><td>${item.impact}</td><td><span class="tag blue">${item.action}</span></td><td><span class="tag red">${item.block}</span></td><td><button class="link-btn" data-product="${item.code}">补充</button></td></tr>`;
+  }).join("");
+}
+
+function renderPublishTasks() {
+  document.getElementById("publishRows").innerHTML = publishTasks.map(task => {
+    const product = products.find(product => product.code === task.code) || products[0];
+    const stateClass = task.state === "待发布" ? "blue" : task.state === "发布中" ? "orange" : task.state === "上架失败" || task.state === "已拦截" ? "red" : "green";
+    const checkClass = task.check === "全部通过" ? "green" : "orange";
+    return `<tr><td><b>${task.no}</b><small style="display:block;color:#667085;margin-top:3px">${task.action}</small></td><td>${product.name}<small style="display:block;color:#667085;margin-top:3px">${task.code}</small></td><td>${task.store}</td><td><span class="tag ${checkClass}">${task.check}</span></td><td><span class="tag ${stateClass}">${task.state}</span></td><td>${task.reason}</td><td><div class="row-actions"><button class="link-btn" data-material="${task.code}">查看素材</button><button class="link-btn" data-publish-product="${task.code}">重试</button></div></td></tr>`;
+  }).join("");
 }
 
 function renderOrders() {
@@ -138,6 +180,7 @@ function productDrawer(product = products[0]) {
     title: product.name,
     body: `<div class="drawer-tabs"><button class="active">基础信息</button><button>设备档案</button><button>租赁方案</button><button>AI 知识</button><button>发布记录</button></div>
       <div class="detail-hero"><div class="phone-thumb ${product.tone}"><span></span></div><div><span class="tag ${product.status === "在售" ? "green" : "orange"}">${product.status}</span><h3>${product.name}</h3><p>闲鱼商品 ${product.id} · 绑定设备 ${product.code}</p></div></div>
+      <section class="form-section"><h3>发布准备度</h3><div class="readiness-grid"><span class="${product.completeness === 100 ? "ok" : "warn"}"><i data-lucide="${product.completeness === 100 ? "check" : "circle-alert"}"></i>设备信息 ${product.completeness}%</span><span class="${product.materialStatus === "素材已生成" ? "ok" : "warn"}"><i data-lucide="${product.materialStatus === "素材已生成" ? "check" : "circle-alert"}"></i>${product.materialStatus}</span><span class="${product.stock !== "0 台" ? "ok" : "bad"}"><i data-lucide="${product.stock !== "0 台" ? "check" : "x"}"></i>库存 ${product.stock}</span><span class="${product.publishStatus === "可上架" ? "ok" : "warn"}"><i data-lucide="${product.publishStatus === "可上架" ? "check" : "circle-alert"}"></i>${product.publishStatus}</span><span class="ok"><i data-lucide="shield-check"></i>平台规则已校验</span></div></section>
       <section class="form-section"><h3>商品信息</h3><div class="form-grid"><label>商品标题<input value="${product.name}｜38项检测｜门店可验机"></label><label>闲鱼售价<input value="${product.price.replace("¥", "")}"></label><label>所属店铺<select><option>${product.store}</option></select></label><label>可用库存<input value="${product.stock.replace(" 台", "")}"></label></div></section>
       <section class="form-section"><h3>设备档案</h3><div class="form-grid"><label>设备串码<input value="${product.code}"></label><label>IMEI<input value="35 642109 82•••• 1"></label><label>成色等级<select><option>${product.note.split(" · ")[0]}</option></select></label><label>电池健康<input value="${product.note.match(/电池\d+%/)?.[0].replace("电池","") || "待补充"}"></label><label>屏幕情况<select><option>${product.note.split(" · ")[2] || "待核验"}</option></select></label><label>维修记录<select><option>无主板维修记录</option></select></label></div></section>
       <section class="form-section"><h3>租赁与买断</h3><div class="form-grid"><label>首期金额<input value="${product.rent.includes("首期") ? product.rent.split(" / ")[0].replace("首期","") : "待配置"}"></label><label>月租金额<input value="${product.rent.includes("月租") ? product.rent.split("月租")[1] : "待配置"}"></label><label>默认租期<select><option>3 个月</option><option>6 个月</option><option>12 个月</option></select></label><label>预计买断价<input value="2899"></label></div></section>
@@ -175,6 +218,32 @@ function templateDrawer() {
     eyebrow: "消息模板",
     title: "编辑：询问最低价",
     body: `<section class="form-section"><div class="form-grid"><label>模板名称<input value="询问最低价"></label><label>模板分类<select><option>价格与议价</option></select></label><label class="span-2">触发关键词<input value="最低、便宜、优惠、少点、到手价"></label></div></section><section class="form-section"><label>回复模板<textarea rows="8">这台机器目前标价是 {{商品售价}}。如果您是到店自提，我可以根据门店当日活动再帮您确认；低于系统底价的优惠需要人工审核。</textarea></label></section><section class="form-section"><h3>可用动态字段</h3><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:9px"><span class="tag blue">{{商品售价}}</span><span class="tag blue">{{月租金额}}</span><span class="tag blue">{{首期金额}}</span><span class="tag blue">{{店铺地址}}</span><span class="tag blue">{{电池健康}}</span></div></section><div class="drawer-note"><i data-lucide="shield-check"></i><span>当实时价格低于店铺底价或商品价格与设备档案冲突时，本模板不会自动发送。</span></div>`
+  });
+}
+
+function materialDrawer(product = products[0]) {
+  const blocked = product.completeness < 100 || product.stock === "0 台";
+  const gaps = knowledgeGaps.filter(item => item.code === product.code);
+  openDrawer({
+    eyebrow: "发布素材工作台",
+    title: product.name,
+    saveLabel: blocked ? "补充资料后再审核" : "提交审核",
+    body: `<div class="drawer-note" style="margin-bottom:18px"><i data-lucide="shield-check"></i><span>发布到闲鱼前，必须完成设备档案、AI 素材、价格/库存校验和人工审阅。未确认的内容不会自动发布。</span></div>
+      <section class="form-section"><h3>发布前置校验</h3><div class="publish-checks"><span class="${product.completeness === 100 ? "ok" : "bad"}"><i data-lucide="${product.completeness === 100 ? "check" : "x"}"></i>设备档案 ${product.completeness}%</span><span class="${product.materialStatus === "素材已生成" ? "ok" : "warn"}"><i data-lucide="${product.materialStatus === "素材已生成" ? "check" : "circle-alert"}"></i>${product.materialStatus}</span><span class="${product.stock !== "0 台" ? "ok" : "bad"}"><i data-lucide="${product.stock !== "0 台" ? "check" : "x"}"></i>库存 ${product.stock}</span><span class="ok"><i data-lucide="shield-check"></i>敏感词通过</span><span class="${product.publishStatus === "可上架" ? "ok" : "warn"}"><i data-lucide="${product.publishStatus === "可上架" ? "check" : "circle-alert"}"></i>${product.publishStatus}</span></div></section>
+      ${gaps.length ? `<section class="form-section"><h3>阻断项</h3><div class="block-list">${gaps.map(item => `<div><b>${item.missing}</b><small>${item.impact} · ${item.block}</small><button class="link-btn" data-product="${item.code}">补充</button></div>`).join("")}</div></section>` : ""}
+      <section class="form-section"><h3>AI 读取的数据来源</h3><div class="source-grid"><span>设备串码<b>${product.code}</b></span><span>品牌型号<b>${product.name}</b></span><span>成色电池<b>${product.note}</b></span><span>售价租价<b>${product.price} / ${product.rent}</b></span><span>来源成本<b>${product.source} / ${product.cost}</b></span><span>售后规则<b>90 天基础保障</b></span></div></section>
+      <section class="form-section"><h3>生成的闲鱼素材</h3><div class="material-preview"><div class="material-images"><div class="phone-poster ${product.tone}"><div class="phone-thumb ${product.tone}"><span></span></div><b>${product.name.split(" ")[0]}</b><small>38 项检测 · 门店可验机</small></div><div class="detail-poster"><b>成色</b><span>${product.note}</span></div><div class="detail-poster"><b>价格</b><span>${product.price} · ${product.rent}</span></div></div><label>闲鱼标题<input value="${product.name}｜${product.note.split(" · ")[0]}｜门店可验机｜支持先租后买"></label><label>商品描述<textarea rows="7">${product.name}，${product.note}。门店已完成基础检测，支持到店验机。售价 ${product.price}，如需短期过渡使用，可参考 ${product.rent}。旧机抵扣需到店检测后确认，售后以门店规则为准。</textarea></label><label>售后与风险说明<textarea rows="4">非人为故障 90 天基础保障；电池、屏幕、进水和人为损坏需按检测结果处理。不承诺未核实库存、额外优惠或平台规则外服务。</textarea></label></div></section>
+      <section class="form-section"><h3>人工审阅</h3><div class="review-box"><label><input type="checkbox" ${blocked ? "" : "checked"}> 我已确认图片、描述、价格、库存、售后承诺与真实设备一致</label><div class="row-actions"><button class="btn secondary small" data-action="regenerate-material"><i data-lucide="refresh-cw"></i>重新生成</button><button class="btn secondary small" data-action="preview-xianyu"><i data-lucide="eye"></i>预览闲鱼发布页</button><button class="btn primary small" data-action="${blocked ? "blocked-publish" : "submit-review"}"><i data-lucide="file-check-2"></i>${blocked ? "查看阻断原因" : "提交审核"}</button></div></div></section>`
+  });
+}
+
+function publishGateModal(product = products[0]) {
+  const canPublish = product.publishStatus === "可上架" && product.completeness === 100 && product.materialStatus === "素材已生成" && product.stock !== "0 台";
+  openModal({
+    title: canPublish ? "确认发布到闲鱼" : "暂不能发布到闲鱼",
+    subtitle: canPublish ? "校验通过后可加入自动上架任务" : "请先完成发布前置校验",
+    icon: canPublish ? "upload-cloud" : "circle-alert",
+    body: `<div class="publish-gate-modal"><div class="publish-checks"><span class="${product.completeness === 100 ? "ok" : "bad"}"><i data-lucide="${product.completeness === 100 ? "check" : "x"}"></i>设备档案 ${product.completeness}%</span><span class="${product.materialStatus === "素材已生成" ? "ok" : "bad"}"><i data-lucide="${product.materialStatus === "素材已生成" ? "check" : "x"}"></i>${product.materialStatus}</span><span class="${product.stock !== "0 台" ? "ok" : "bad"}"><i data-lucide="${product.stock !== "0 台" ? "check" : "x"}"></i>库存 ${product.stock}</span><span class="${product.publishStatus === "可上架" ? "ok" : "bad"}"><i data-lucide="${product.publishStatus === "可上架" ? "check" : "x"}"></i>${product.publishStatus}</span></div><p>${canPublish ? "系统将把该商品加入上下架任务队列，任务状态为发布中。" : "未通过校验的商品不会进入发布队列，避免错误描述、错误价格或无库存承诺引发纠纷。"}</p></div><div class="modal-actions"><button class="btn secondary" data-action="close-modal">取消</button><button class="btn ${canPublish ? "primary" : "secondary"}" data-action="${canPublish ? "confirm-publish" : "marketing-material"}">${canPublish ? "确认发布到闲鱼" : "去生成/补充素材"}</button></div>`
   });
 }
 
@@ -237,6 +306,19 @@ document.addEventListener("click", event => {
     return;
   }
 
+  const productTab = event.target.closest("[data-product-tab]");
+  if (productTab) {
+    document.querySelectorAll("[data-product-tab]").forEach(button => button.classList.toggle("active", button === productTab));
+    document.querySelectorAll("[data-product-panel]").forEach(panel => panel.classList.toggle("active", panel.dataset.productPanel === productTab.dataset.productTab));
+    return;
+  }
+
+  const materialButton = event.target.closest("[data-material]");
+  if (materialButton) { materialDrawer(products.find(item => item.code === materialButton.dataset.material)); return; }
+
+  const publishButton = event.target.closest("[data-publish-product]");
+  if (publishButton) { publishGateModal(products.find(item => item.code === publishButton.dataset.publishProduct)); return; }
+
   const action = event.target.closest("[data-action]")?.dataset.action;
   if (!action) return;
   if (action === "close-drawer") closeDrawer();
@@ -245,6 +327,14 @@ document.addEventListener("click", event => {
   if (action === "mock-authorized") { closeModal(); showToast("店铺授权成功，正在同步商品与消息"); }
   if (["new-plan", "edit-plan", "generate-lead", "create-order"].includes(action)) planDrawer();
   if (action === "open-product") productDrawer(products[0]);
+  if (action === "marketing-material") { closeModal(); materialDrawer(products[0]); showToast("演示模式默认选择 iPhone 13 生成素材"); }
+  if (action === "bulk-publish") publishGateModal(products.find(item => item.publishStatus !== "可上架") || products[0]);
+  if (action === "bulk-down") showToast("已生成批量下架确认任务，演示模式不执行真实下架");
+  if (action === "regenerate-material") showToast("已重新生成图片、标题和商品描述，请人工复核后提交");
+  if (action === "preview-xianyu") showToast("已打开闲鱼发布页预览（演示）");
+  if (action === "submit-review") showToast("已提交审核，审核通过后才可加入闲鱼上架任务");
+  if (action === "blocked-publish") showToast("当前商品存在阻断项，请先补全设备档案和库存信息");
+  if (action === "confirm-publish") { closeModal(); publishTasks[0].state = "发布中"; renderPublishTasks(); document.querySelector('[data-product-tab="publish"]').click(); showToast("已加入上下架任务，状态为发布中"); }
   if (["edit-template", "new-template", "add-rule"].includes(action)) templateDrawer();
   if (action === "phone-call") phoneModal();
   if (action === "confirm-call") { closeModal(); showToast("已发起虚拟电话，等待王店长接听"); }
@@ -315,6 +405,9 @@ document.addEventListener("keydown", event => { if (event.key === "Escape") { cl
 
 renderConversations();
 renderProducts();
+renderDevices();
+renderKnowledgeGaps();
+renderPublishTasks();
 renderOrders();
 renderChart();
 initIcons();
