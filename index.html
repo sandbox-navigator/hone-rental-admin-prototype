@@ -104,7 +104,7 @@
       <section class="page full-bleed" data-page="im">
         <div class="im-layout">
           <aside class="conversation-sidebar">
-            <div class="conversation-head"><div><h2>消息</h2><span class="tag blue">AI 接待中</span></div><label class="search wide"><i data-lucide="search"></i><input id="conversationSearch" placeholder="搜索买家或商品"></label><div class="filter-tabs"><button class="active">全部</button><button>未读 <b>6</b></button><button>待人工 <b>3</b></button></div></div>
+            <div class="conversation-head"><div><h2>消息</h2><span class="tag blue" id="platformStateTag">闲鱼 · AI 接待中</span></div><div class="platform-tabs"><button class="active" data-im-platform="xianyu">闲鱼 <b>4</b></button><button data-im-platform="meituan">美团 <b>1</b></button><button data-im-platform="jd">京东 <b>1</b></button></div><label class="search wide"><i data-lucide="search"></i><input id="conversationSearch" placeholder="搜索买家或商品"></label><div class="filter-tabs"><button class="active">全部</button><button>未读 <b>6</b></button><button>待人工 <b>3</b></button></div></div>
             <div class="conversation-list" id="conversationList"></div>
           </aside>
           <section class="chat-stage">
@@ -112,7 +112,7 @@
               <div class="person"><span class="avatar green" id="chatAvatar">林</span><span><b id="chatBuyer">林先生</b><small><span class="status-dot online"></span><span id="chatStatus">在线 · 来自闲鱼</span></small></span></div>
               <div class="chat-actions"><span class="ai-state"><i data-lucide="bot"></i>AI 正在接待</span><button class="btn secondary small" id="transferBtn"><i data-lucide="user-round"></i>转人工</button><button class="icon-btn plain" title="虚拟电话提醒店主" data-action="phone-call"><i data-lucide="phone-call"></i></button><button class="icon-btn plain" title="更多"><i data-lucide="ellipsis"></i></button></div>
             </header>
-            <div class="context-strip"><span><i data-lucide="smartphone"></i>咨询商品：<b>iPhone 13 128G 星光色</b></span><span><i data-lucide="tag"></i>场景：<b>维修过渡机</b></span><button class="link-btn" data-action="open-product">查看商品</button></div>
+            <div class="context-strip"><span><i data-lucide="smartphone"></i>咨询商品：<b id="contextProduct">iPhone 13 128G 星光色</b></span><span><i data-lucide="tag"></i>场景：<b id="contextScenario">维修过渡机</b></span><button class="link-btn" data-action="open-product">查看商品</button></div>
             <div class="messages" id="messages">
               <div class="time-separator">今天 10:24</div>
               <div class="message buyer"><span class="avatar green">林</span><div><p>这个 13 还在吗？电池多少，屏幕换过没有？</p><small>10:24</small></div></div>

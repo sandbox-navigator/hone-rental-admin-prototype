@@ -187,15 +187,20 @@ tbody tr:hover { background: #fbfcfe; }
 select { min-height: 36px; padding: 0 32px 0 11px; border: 1px solid #d0d5dd; border-radius: 6px; background: #fff; }
 
 .im-layout { display: grid; grid-template-columns: 290px minmax(500px,1fr) 330px; height: calc(100vh - 68px); min-height: 650px; background: #fff; }
-.conversation-sidebar { min-width: 0; border-right: 1px solid var(--line); background: #fbfcfd; }
+.conversation-sidebar { display: grid; grid-template-rows: auto minmax(0,1fr); min-width: 0; border-right: 1px solid var(--line); background: #fbfcfd; }
 .conversation-head { padding: 18px 14px 10px; border-bottom: 1px solid var(--line); background: #fff; }
 .conversation-head > div:first-child { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
 .conversation-head h2 { font-size: 20px; }
+.platform-tabs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 5px; margin-bottom: 11px; padding: 4px; border: 1px solid var(--line); border-radius: 7px; background: #f4f6f9; }
+.platform-tabs button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 30px; border: 0; border-radius: 5px; color: var(--muted); background: transparent; font-size: 12px; }
+.platform-tabs button.active { color: #fff; background: var(--primary); font-weight: 600; box-shadow: 0 2px 6px rgba(45,108,223,.18); }
+.platform-tabs b { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; color: inherit; background: rgba(255,255,255,.22); font-size: 10px; }
+.platform-tabs button:not(.active) b { color: var(--primary); background: #e7effd; }
 .filter-tabs { display: flex; gap: 4px; margin-top: 11px; }
 .filter-tabs button { flex: 1; height: 30px; border: 0; border-radius: 5px; color: var(--muted); background: transparent; font-size: 12px; }
 .filter-tabs button.active { color: var(--primary); background: var(--primary-soft); font-weight: 600; }
 .filter-tabs b { color: var(--red); }
-.conversation-list { height: calc(100% - 135px); overflow-y: auto; }
+.conversation-list { min-height: 0; overflow-y: auto; }
 .conversation-item { position: relative; display: grid; grid-template-columns: 42px minmax(0,1fr) auto; gap: 9px; width: 100%; min-height: 78px; padding: 13px 12px; border: 0; border-bottom: 1px solid var(--line-soft); background: transparent; text-align: left; }
 .conversation-item:hover { background: #f2f5f9; }
 .conversation-item.active { background: #edf4ff; }
@@ -207,6 +212,10 @@ select { min-height: 36px; padding: 0 32px 0 11px; border: 1px solid #d0d5dd; bo
 .conversation-info small { flex: 0 0 auto; color: var(--subtle); font-size: 10px; }
 .conversation-info p { overflow: hidden; margin: 5px 0 0; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .conversation-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; padding-top: 21px; }
+.conversation-empty { display: grid; place-items: center; gap: 7px; padding: 42px 22px; color: var(--muted); text-align: center; }
+.conversation-empty svg { width: 30px; height: 30px; color: var(--subtle); }
+.conversation-empty b, .conversation-empty small { display: block; }
+.conversation-empty small { line-height: 1.5; }
 .count { display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; color: #fff; background: var(--red); font-size: 10px; }
 .mini-state { color: var(--orange); font-size: 10px; }
 .chat-stage { display: grid; grid-template-rows: 65px 39px minmax(0,1fr) auto; min-width: 0; background: #f5f7fa; }

@@ -1,10 +1,38 @@
+const platformMeta = {
+  xianyu: { name: "闲鱼", tagClass: "blue" },
+  meituan: { name: "美团", tagClass: "orange" },
+  jd: { name: "京东", tagClass: "red" }
+};
+
 const conversations = [
-  { id: 1, name: "林先生", avatar: "林", color: "green", time: "刚刚", message: "可以，下午四点半左右到，地址发我。", unread: 2, state: "待人工", status: "在线 · 来自闲鱼" },
-  { id: 2, name: "陈同学", avatar: "陈", color: "orange", time: "3 分钟", message: "学生租的话需要什么资料？", unread: 1, state: "AI接待", status: "在线 · 来自闲鱼" },
-  { id: 3, name: "用户_8123", avatar: "8", color: "blue", time: "8 分钟", message: "屏幕有问题，我要退款。", unread: 1, state: "待人工", status: "离线 · 来自闲鱼" },
-  { id: 4, name: "赵女士", avatar: "赵", color: "green", time: "12 分钟", message: "旧机可以抵多少？我下班过去。", unread: 0, state: "高意向", status: "在线 · 来自闲鱼" },
-  { id: 5, name: "小飞数码", avatar: "飞", color: "blue", time: "26 分钟", message: "这台机器有没有维修过？", unread: 0, state: "AI接待", status: "在线 · 来自闲鱼" },
-  { id: 6, name: "Momo", avatar: "M", color: "orange", time: "1 小时", message: "能不能只看额度，机器不要？", unread: 2, state: "风险", status: "离线 · 来自闲鱼" }
+  { id: 1, platform: "xianyu", name: "林先生", avatar: "林", color: "green", time: "刚刚", message: "可以，下午四点半左右到，地址发我。", unread: 2, state: "待人工", status: "在线 · 来自闲鱼", product: "iPhone 13 128G 星光色", scenario: "维修过渡机", trace: "AI 已识别闲鱼商品卡片，并读取设备档案 SN13-0821", warning: "高意向：明确租期并询问价格，建议给出租赁方案", messages: [
+    ["buyer", "林", "这个 13 还在吗？电池多少，屏幕换过没有？", "10:24"],
+    ["agent", "AI", "在的。这台是 iPhone 13 128G 星光色，电池健康 89%，原装屏，边框有轻微使用痕迹，门店已完成 38 项检测。您是想直接购买，还是短期过渡使用呢？", "AI 回复 · 10:24"],
+    ["buyer", "林", "我的手机送修了，差不多用两三个月。租的话最低多少？", "10:25"],
+    ["agent", "AI", "按您两三个月的过渡需求，更适合 3 个月短租：首期 299 元，之后每月 269 元，含基础保障。到期可以归还，也可以补差买断。您方便今天到店看一下机器吗？", "AI 回复 · 10:25"],
+    ["buyer", "林", "可以，下午四点半左右到，地址发我。", "10:26"]
+  ] },
+  { id: 2, platform: "xianyu", name: "陈同学", avatar: "陈", color: "orange", time: "3 分钟", message: "学生租的话需要什么资料？", unread: 1, state: "AI接待", status: "在线 · 来自闲鱼", product: "iPhone 14 Pro 256G 暗紫色", scenario: "学生用机", trace: "AI 已读取租赁资料规则和设备档案 SN14P-0318", warning: "资料确认：涉及学生用户，建议人工确认监护信息", messages: [
+    ["buyer", "陈", "学生租的话需要什么资料？", "10:28"],
+    ["agent", "AI", "可以先看真实用机需求和预算。学生用机一般需要本人到店确认用途，具体资料以门店审核为准，我可以先帮您介绍这台机器的租赁方案。", "AI 回复 · 10:28"]
+  ] },
+  { id: 3, platform: "xianyu", name: "用户_8123", avatar: "8", color: "blue", time: "8 分钟", message: "屏幕有问题，我要退款。", unread: 1, state: "待人工", status: "离线 · 来自闲鱼", product: "iPhone 12 128G 白色", scenario: "售后退款", trace: "AI 命中投诉/退款强制转人工规则", warning: "高风险：停止自动回复，等待人工接管", messages: [
+    ["buyer", "8", "屏幕有问题，我要退款。", "10:20"],
+    ["agent", "AI", "这类售后和退款问题需要人工核实订单、检测记录和平台规则，我先为您转接门店人员处理。", "建议回复 · 未自动发送"]
+  ] },
+  { id: 4, platform: "xianyu", name: "Momo", avatar: "M", color: "orange", time: "1 小时", message: "能不能只看额度，机器不要？", unread: 2, state: "风险", status: "离线 · 来自闲鱼", product: "iPhone 13 128G 星光色", scenario: "疑似套现", trace: "AI 命中疑似套现和平台违规表达", warning: "高风险：不自动发送，虚拟电话提醒老板", messages: [
+    ["buyer", "M", "能不能只看额度，机器不要？", "09:52"],
+    ["agent", "AI", "未自动发送。该问题命中疑似套现风险，已转人工核验。", "系统记录 · 09:52"]
+  ] },
+  { id: 5, platform: "meituan", name: "周女士", avatar: "周", color: "green", time: "5 分钟", message: "美团上看到你们店，旧手机能抵吗？", unread: 1, state: "高意向", status: "在线 · 来自美团", product: "华为 Mate 50 256G 昆仑霞光", scenario: "到店置换", trace: "AI 已识别美团门店线索，并读取旧机抵扣规则", warning: "高意向：用户有到店置换意向，旧机估值需到店验机", messages: [
+    ["buyer", "周", "美团上看到你们店，旧手机能抵吗？", "10:29"],
+    ["agent", "AI", "可以做旧机抵扣，但最终价格需要到店检测后确认。您可以先发旧机型号、内存、成色和是否维修过，我先帮您预估区间。", "AI 回复 · 10:29"],
+    ["buyer", "周", "我下班去店里看，可以发地址吗？", "10:30"]
+  ] },
+  { id: 6, platform: "jd", name: "刘先生", avatar: "刘", color: "blue", time: "14 分钟", message: "京东看到这台 14 Pro，支持租完买断吗？", unread: 0, state: "AI接待", status: "在线 · 来自京东", product: "iPhone 14 Pro 256G 暗紫色", scenario: "租赁买断", trace: "AI 已识别京东商品咨询，并读取租赁买断规则", warning: "价格需以设备档案和京东商品价一致为前提", messages: [
+    ["buyer", "刘", "京东看到这台 14 Pro，支持租完买断吗？", "10:16"],
+    ["agent", "AI", "支持到期后选择归还、续租或买断。买断价会按租期、设备状态和当时残值重新计算，具体以系统方案为准。", "AI 回复 · 10:16"]
+  ] }
 ];
 
 const products = [
@@ -118,6 +146,7 @@ const drawerBackdrop = document.getElementById("drawerBackdrop");
 const modalBackdrop = document.getElementById("modalBackdrop");
 const toast = document.getElementById("toast");
 let currentRole = "store";
+let activeImPlatform = "xianyu";
 
 function initIcons() {
   if (window.lucide) window.lucide.createIcons({ attrs: { "aria-hidden": "true" } });
@@ -161,14 +190,38 @@ function setRole(role) {
   showToast(isOps ? "已切换到平台运营端，可管理模型、规则和审计" : "已切换到门店老板端，仅保留业务配置");
 }
 
+function renderChat(data = conversations[0]) {
+  const platform = platformMeta[data.platform];
+  document.getElementById("chatBuyer").textContent = data.name;
+  document.getElementById("chatAvatar").textContent = data.avatar;
+  document.getElementById("chatAvatar").className = `avatar ${data.color}`;
+  document.getElementById("chatStatus").textContent = data.status;
+  document.getElementById("contextProduct").textContent = data.product;
+  document.getElementById("contextScenario").textContent = data.scenario;
+  const stateTag = document.getElementById("platformStateTag");
+  stateTag.textContent = `${platform.name} · AI 接待中`;
+  stateTag.className = `tag ${platform.tagClass}`;
+  document.getElementById("messages").innerHTML = `<div class="time-separator">今天</div>
+    <div class="ai-trace"><i data-lucide="sparkles"></i>${data.trace}</div>
+    ${data.messages.map(([type, avatar, text, time]) => `<div class="message ${type}"><span class="avatar ${type === "agent" ? "ai" : data.color}">${type === "agent" ? `<i data-lucide="bot"></i>` : avatar}</span><div><p>${text}</p><small>${time}</small></div></div>`).join("")}
+    <div class="ai-trace warning"><i data-lucide="circle-alert"></i>${data.warning}</div>`;
+  initIcons();
+  const messages = document.getElementById("messages");
+  messages.scrollTop = messages.scrollHeight;
+}
+
 function renderConversations(filter = "") {
   const list = document.getElementById("conversationList");
-  list.innerHTML = conversations.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()) || item.message.includes(filter)).map((item, index) => `
+  const visible = conversations.filter(item => item.platform === activeImPlatform && (item.name.toLowerCase().includes(filter.toLowerCase()) || item.message.includes(filter) || item.product.includes(filter)));
+  list.innerHTML = visible.length ? visible.map((item, index) => `
     <button class="conversation-item ${index === 0 ? "active" : ""}" data-conversation="${item.id}">
       <span class="avatar ${item.color}">${item.avatar}</span>
-      <span class="conversation-info"><span><b>${item.name}</b><small>${item.time}</small></span><p>${item.message}</p></span>
+      <span class="conversation-info"><span><b>${item.name}</b><small>${platformMeta[item.platform].name} · ${item.time}</small></span><p>${item.message}</p></span>
       <span class="conversation-meta">${item.unread ? `<b class="count">${item.unread}</b>` : ""}<small class="mini-state">${item.state}</small></span>
-    </button>`).join("");
+    </button>`).join("") : `<div class="conversation-empty"><i data-lucide="message-square-off"></i><b>暂无${platformMeta[activeImPlatform].name}会话</b><small>可切换其他平台，或等待新咨询同步。</small></div>`;
+  const first = visible[0];
+  if (first) renderChat(first);
+  initIcons();
 }
 
 function renderProducts(filter = "") {
@@ -410,11 +463,19 @@ document.addEventListener("click", event => {
     document.querySelectorAll(".conversation-item").forEach(item => item.classList.remove("active"));
     conversation.classList.add("active");
     const data = conversations.find(item => item.id === Number(conversation.dataset.conversation));
-    document.getElementById("chatBuyer").textContent = data.name;
-    document.getElementById("chatAvatar").textContent = data.avatar;
-    document.getElementById("chatAvatar").className = `avatar ${data.color}`;
-    document.getElementById("chatStatus").textContent = data.status;
+    renderChat(data);
     if (data.id !== 1) showToast(`已切换至 ${data.name} 的会话（演示数据）`);
+    return;
+  }
+
+  const imPlatform = event.target.closest("[data-im-platform]");
+  if (imPlatform) {
+    activeImPlatform = imPlatform.dataset.imPlatform;
+    document.querySelectorAll("[data-im-platform]").forEach(button => button.classList.toggle("active", button === imPlatform));
+    const search = document.getElementById("conversationSearch");
+    search.value = "";
+    renderConversations();
+    showToast(`已切换到${platformMeta[activeImPlatform].name} IM 会话`);
     return;
   }
 
